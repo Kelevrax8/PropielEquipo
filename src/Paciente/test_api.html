@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Disponibilidad</title>
+</head>
+<body>
+    <h1>Test de API de Disponibilidad</h1>
+    <p>Fecha: 2025-08-05</p>
+    <div id="results"></div>
+    
+    <script>
+        async function testAvailability() {
+            const resultsDiv = document.getElementById('results');
+            const fecha = '2025-08-05';
+            
+            resultsDiv.innerHTML = '<p>Verificando disponibilidad...</p>';
+            
+            for (let hour = 9; hour <= 17; hour++) {
+                const horario = hour + ':00';
+                
+                try {
+                    const response = await fetch(`php_action/check_availability.php?fecha=${fecha}&horario=${horario}`);
+                    const data = await response.json();
+                    
+                    const status = data.success && data.available ? '✅ Disponible' : '❌ No disponible';
+                    resultsDiv.innerHTML += `<p>${horario}: ${status}</p>`;
+                    
+                    console.log(`${horario}:`, data);
+                } catch (error) {
+                    resultsDiv.innerHTML += `<p>${horario}: ⚠️ Error</p>`;
+                    console.error(`Error verificando ${horario}:`, error);
+                }
+            }
+        }
+        
+        // Ejecutar test al cargar la página
+        window.onload = testAvailability;
+    </script>
+</body>
+</html>

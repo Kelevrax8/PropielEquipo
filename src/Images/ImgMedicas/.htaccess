@@ -1,0 +1,60 @@
+# Configuración de seguridad para imágenes médicas
+# PropielEquipo Medical System - Protección de PHI
+
+# Deshabilitar listado de directorio
+Options -Indexes
+
+# Denegar acceso directo desde navegador web
+Order Allow,Deny
+Deny from all
+
+# Permitir acceso solo desde localhost (servidor local) y desde el visor seguro
+Allow from 127.0.0.1
+Allow from ::1
+Allow from localhost
+
+# TEMPORAL: Permitir acceso desde el servidor local para testing
+# Esto se puede restringir más tarde una vez que el visor seguro funcione completamente
+<Files ~ "\.(jpg|jpeg|png|gif|webp|bmp|tiff)$">
+    Order Allow,Deny
+    Allow from all
+    
+    # Cabeceras de seguridad adicionales (comentadas temporalmente para debugging)
+    # Header always set X-Content-Type-Options nosniff
+    # Header always set X-Frame-Options DENY
+    # Header always set Cache-Control "no-cache, no-store, must-revalidate"
+    # Header always set Pragma "no-cache"
+    # Header always set Expires "0"
+</Files>
+
+# Página de error personalizada para acceso no autorizado
+ErrorDocument 403 "Acceso Denegado: Esta es un área restringida que contiene información médica protegida."
+
+# Prevenir acceso a archivos de configuración
+<Files ~ "^\.">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Log de intentos de acceso no autorizado
+<IfModule mod_log_config.c>
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" medical_access
+    CustomLog /var/log/apache2/medical_images_access.log medical_access
+</IfModule>
+
+# Protección contra ataques de inyección
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Bloquear patrones sospechosos en URLs
+    RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+    RewriteCond %{QUERY_STRING} (javascript:|data:|vbscript:) [NC,OR]
+    RewriteCond %{QUERY_STRING} (base64_encode|base64_decode) [NC,OR]
+    RewriteCond %{QUERY_STRING} (GLOBALS|REQUEST) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Redirigir cualquier acceso no autorizado
+    RewriteCond %{REMOTE_ADDR} !^127\.0\.0\.1$
+    RewriteCond %{REMOTE_ADDR} !^::1$
+    RewriteRule .* - [F,L]
+</IfModule>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - PropielEquipo</title>
+    <link href="../output.css?v=1737737373" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50">
+    
+    <!-- Navbar moderno -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo y marca -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-lg" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-bold text-gray-800">PropielEquipo</h1>
+                        <p class="text-xs text-gray-500">Sistema Médico Integral</p>
+                    </div>
+                </div>
+
+                <!-- Navegación escritorio -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../../index.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="home" class="mr-2"></ion-icon>
+                            Inicio
+                        </a>
+                        <a href="servicios.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="medical" class="mr-2"></ion-icon>
+                            Servicios
+                        </a>
+                        <a href="valores.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="heart" class="mr-2"></ion-icon>
+                            Valores
+                        </a>
+                        <a href="contacto.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="call" class="mr-2"></ion-icon>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="login.html" 
+                       class="text-emerald-600 hover:text-emerald-800 px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Iniciar Sesión
+                    </a>
+                    <span class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium">
+                        Registrarse
+                    </span>
+                </div>
+
+                <!-- Botón menú móvil -->
+                <div class="md:hidden">
+                    <button type="button" 
+                            id="mobile-menu-button"
+                            class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-200 transition duration-200"
+                            onclick="toggleMobileMenu()">
+                        <ion-icon name="menu" id="mobile-menu-icon" class="text-xl"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="../../index.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="home" class="mr-3"></ion-icon>
+                    Inicio
+                </a>
+                <a href="servicios.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="medical" class="mr-3"></ion-icon>
+                    Servicios
+                </a>
+                <a href="valores.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="heart" class="mr-3"></ion-icon>
+                    Valores
+                </a>
+                <a href="contacto.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="call" class="mr-3"></ion-icon>
+                    Contacto
+                </a>
+                <div class="border-t pt-2 mt-2">
+                    <a href="login.html" 
+                       class="text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="log-in" class="mr-3"></ion-icon>
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="max-w-2xl w-full">
+            <!-- Card de registro -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="mx-auto w-16 h-16 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-full flex items-center justify-center mb-4">
+                        <ion-icon name="person-add" class="text-white text-2xl"></ion-icon>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Crear Cuenta</h2>
+                    <p class="text-gray-600">Únete a PropielEquipo y accede a nuestros servicios médicos</p>
+                </div>
+                
+                <!-- Formulario -->
+                <form action="php_action/registrar.php" method="post" class="space-y-6">
+                    <!-- Información personal -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" for="nombre">
+                                <ion-icon name="person" class="mr-2 text-emerald-600"></ion-icon>
+                                Nombre
+                            </label>
+                            <input 
+                                type="text" 
+                                id="nombre" 
+                                name="nombre" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white" 
+                                pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" 
+                                title="Solo se permiten letras" 
+                                maxlength="15" 
+                                oninput="this.value = this.value.replace(/[^A-Za-záéíóúÁÉÍÓÚñÑ\s]/g, '')" 
+                                placeholder="Tu nombre"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" for="apellido">
+                                <ion-icon name="person" class="mr-2 text-emerald-600"></ion-icon>
+                                Apellido
+                            </label>
+                            <input 
+                                type="text" 
+                                id="apellido" 
+                                name="apellido" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white" 
+                                pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" 
+                                title="Solo se permiten letras" 
+                                maxlength="15" 
+                                oninput="this.value = this.value.replace(/[^A-Za-záéíóúÁÉÍÓÚñÑ\s]/g, '')" 
+                                placeholder="Tu apellido"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" for="edad">
+                                <ion-icon name="calendar" class="mr-2 text-emerald-600"></ion-icon>
+                                Edad
+                            </label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                max="99" 
+                                oninput="validity.valid||(value='');" 
+                                id="edad" 
+                                name="edad" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white" 
+                                placeholder="Edad"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Contacto y seguridad -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" for="telefono">
+                                <ion-icon name="call" class="mr-2 text-emerald-600"></ion-icon>
+                                Número Telefónico
+                            </label>
+                            <input 
+                                type="text" 
+                                id="telefono" 
+                                name="telefono" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white" 
+                                pattern="[0-9]+" 
+                                title="Solo se permiten números" 
+                                minlength="10" 
+                                maxlength="10" 
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+                                placeholder="10 dígitos"
+                                required
+                            />
+                            <p class="text-xs text-gray-500 mt-1">Este será tu nombre de usuario</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" for="password">
+                                <ion-icon name="lock-closed" class="mr-2 text-emerald-600"></ion-icon>
+                                Contraseña
+                            </label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white" 
+                                placeholder="Contraseña segura"
+                                required
+                            />
+                            <p class="text-xs text-gray-500 mt-1">Mínimo 6 caracteres</p>
+                        </div>
+                    </div>
+
+                    <!-- Género -->
+                    <div>
+                        <h6 class="block text-sm font-semibold text-gray-700 mb-4">
+                            <ion-icon name="people" class="mr-2 text-emerald-600"></ion-icon>
+                            Género:
+                        </h6>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 transition duration-200">
+                                <input class="mr-3 text-emerald-500 focus:ring-emerald-500 w-4 h-4" type="radio" name="genero" id="genero-hombre" value="1" required/>
+                                <label class="text-sm font-medium text-gray-700 cursor-pointer flex items-center" for="genero-hombre">
+                                    <ion-icon name="male" class="mr-2 text-blue-600"></ion-icon>
+                                    Masculino
+                                </label>
+                            </div>
+
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 transition duration-200">
+                                <input class="mr-3 text-emerald-500 focus:ring-emerald-500 w-4 h-4" type="radio" name="genero" id="genero-mujer" value="2" />
+                                <label class="text-sm font-medium text-gray-700 cursor-pointer flex items-center" for="genero-mujer">
+                                    <ion-icon name="female" class="mr-2 text-pink-600"></ion-icon>
+                                    Femenino
+                                </label>
+                            </div>
+
+                            <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 transition duration-200">
+                                <input class="mr-3 text-emerald-500 focus:ring-emerald-500 w-4 h-4" type="radio" name="genero" id="genero-otro" value="3" />
+                                <label class="text-sm font-medium text-gray-700 cursor-pointer flex items-center" for="genero-otro">
+                                    <ion-icon name="transgender" class="mr-2 text-purple-600"></ion-icon>
+                                    Otro
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Términos y condiciones -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="terms" required class="mr-3 mt-1 text-emerald-500 focus:ring-emerald-500">
+                            <label for="terms" class="text-sm text-gray-600">
+                                Acepto los <a href="#" class="text-emerald-600 hover:text-emerald-800 font-medium">términos y condiciones</a> 
+                                y la <a href="#" class="text-emerald-600 hover:text-emerald-800 font-medium">política de privacidad</a> 
+                                de PropielEquipo.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Botón de registro -->
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center shadow-lg hover:shadow-xl">
+                        <ion-icon name="person-add" class="mr-2"></ion-icon>
+                        Crear Mi Cuenta
+                    </button>
+                </form>
+                
+                <!-- Enlaces adicionales -->
+                <div class="mt-8 text-center">
+                    <p class="text-sm text-gray-600 mb-4">
+                        ¿Ya tienes una cuenta?
+                    </p>
+                    <a href="login.html" 
+                       class="inline-flex items-center text-emerald-600 hover:text-emerald-800 font-semibold text-sm transition duration-200">
+                        <ion-icon name="log-in" class="mr-2"></ion-icon>
+                        Iniciar sesión aquí
+                    </a>
+                </div>
+                
+                <!-- Divider -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <p class="text-center text-xs text-gray-500">
+                        Al registrarte, tendrás acceso a nuestros servicios médicos especializados
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Información adicional -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    ¿Necesitas ayuda? 
+                    <a href="contacto.html" class="text-emerald-600 hover:text-emerald-800 font-medium">
+                        Contacta soporte
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img class="h-8 w-8 rounded-lg mr-3" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    <span class="text-gray-900 font-bold">PropielEquipo</span>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-sm text-gray-600">
+                        © 2025 PropielEquipo. Todos los derechos reservados.
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                        Sistema médico integral y seguro
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('mobile-menu-icon');
+            
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.name = 'menu';
+            } else {
+                menuIcon.name = 'close';
+            }
+        }
+
+        // Validación en tiempo real
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input');
+            const radioGroups = form.querySelectorAll('input[type="radio"]');
+            
+            // Feedback visual para inputs
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.checkValidity()) {
+                        this.classList.remove('border-red-500');
+                        this.classList.add('border-green-500');
+                    } else {
+                        this.classList.remove('border-green-500');
+                        this.classList.add('border-red-500');
+                    }
+                });
+            });
+
+            // Highlight para radio buttons
+            radioGroups.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.querySelectorAll('input[name="' + this.name + '"]').forEach(r => {
+                        r.closest('.flex').classList.remove('bg-emerald-100', 'border-emerald-300');
+                    });
+                    this.closest('.flex').classList.add('bg-emerald-100', 'border-emerald-300');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

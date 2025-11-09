@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropielEquipo - Sistema Médico Integral</title>
+    <link href="src/output.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+    
+    <!-- Navbar moderno -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo y marca -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-lg" src="src/Images/logopropieel.png" alt="PropielEquipo">
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-bold text-gray-800">PropielEquipo</h1>
+                        <p class="text-xs text-gray-500">Sistema Médico Integral</p>
+                    </div>
+                </div>
+
+                <!-- Navegación escritorio -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" 
+                           class="text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <ion-icon name="home" class="mr-2"></ion-icon>
+                            Inicio
+                        </a>
+                        <a href="src/Landing/servicios.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="medical" class="mr-2"></ion-icon>
+                            Servicios
+                        </a>
+                        <a href="src/Landing/valores.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="heart" class="mr-2"></ion-icon>
+                            Valores
+                        </a>
+                        <a href="src/Landing/contacto.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="call" class="mr-2"></ion-icon>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="src/Landing/registrar.html" 
+                       class="text-emerald-600 hover:text-emerald-800 px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Registrarse
+                    </a>
+                    <a href="src/Landing/login.html"
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Iniciar Sesión
+                    </a>
+                </div>
+
+                <!-- Botón menú móvil -->
+                <div class="md:hidden">
+                    <button type="button" 
+                            id="mobile-menu-button"
+                            class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-200 transition duration-200"
+                            onclick="toggleMobileMenu()">
+                        <ion-icon name="menu" id="mobile-menu-icon" class="text-xl"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="index.html" 
+                   class="text-blue-600 bg-blue-50 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="home" class="mr-3"></ion-icon>
+                    Inicio
+                </a>
+                <a href="src/Landing/servicios.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="medical" class="mr-3"></ion-icon>
+                    Servicios
+                </a>
+                <a href="src/Landing/valores.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="heart" class="mr-3"></ion-icon>
+                    Valores
+                </a>
+                <a href="src/Landing/contacto.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="call" class="mr-3"></ion-icon>
+                    Contacto
+                </a>
+                <div class="border-t pt-2 mt-2 space-y-2">
+                    <a href="src/Landing/registrar.html" 
+                       class="text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="person-add" class="mr-3"></ion-icon>
+                        Registrarse
+                    </a>
+                    <a href="src/Landing/login.html" 
+                       class="text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="log-in" class="mr-3"></ion-icon>
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-1">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Contenido principal -->
+                <div class="text-center lg:text-left">
+                    <div class="mb-8">
+                        <span class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                            <ion-icon name="medical" class="mr-2"></ion-icon>
+                            Sistema Médico Profesional
+                        </span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                            <span class="text-blue-600">Propiel</span>Equipo
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed">
+                            Más de <span class="font-bold text-emerald-600">30 años de experiencia</span> 
+                            en dermatología y atención médica especializada respaldada por formación de posgrado.
+                        </p>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+                        <a href="src/Landing/login.html" 
+                           class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition duration-200 flex items-center justify-center shadow-lg hover:shadow-xl">
+                            <ion-icon name="log-in" class="mr-2"></ion-icon>
+                            Acceder al Sistema
+                        </a>
+                        <a href="src/Landing/registrar.html" 
+                           class="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white px-8 py-4 rounded-lg font-bold text-lg transition duration-200 flex items-center justify-center">
+                            <ion-icon name="person-add" class="mr-2"></ion-icon>
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Estadísticas -->
+                    <div class="grid grid-cols-3 gap-6 text-center">
+                        <div class="bg-white rounded-lg p-4 shadow-md">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">30+</div>
+                            <div class="text-sm text-gray-600">Años de Experiencia</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-md">
+                            <div class="text-3xl font-bold text-emerald-600 mb-2">3</div>
+                            <div class="text-sm text-gray-600">Especialidades</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-md">
+                            <div class="text-3xl font-bold text-purple-600 mb-2">100%</div>
+                            <div class="text-sm text-gray-600">Seguro</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen -->
+                <div class="relative">
+                    <div class="relative z-10">
+                        <img src="src/Images/blur_edges.png" 
+                             alt="Equipo médico profesional" 
+                             class="w-full h-auto rounded-2xl shadow-2xl">
+                    </div>
+                    <!-- Decoración de fondo -->
+                    <div class="absolute -top-6 -right-6 w-full h-full bg-gradient-to-br from-blue-200 to-emerald-200 rounded-2xl -z-10"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de servicios destacados -->
+        <section class="bg-gray-50 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Nuestras Especialidades
+                    </h2>
+                    <p class="text-xl text-gray-600">
+                        Servicios médicos especializados con tecnología de vanguardia
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Dermatología -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition duration-300 border-t-4 border-blue-500">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <img src="src/Images/derma.png" alt="Dermatología" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Dermatología</h3>
+                            <p class="text-gray-600 mb-6">
+                                Tratamiento especializado para enfermedades de la piel con más de 30 años de experiencia.
+                            </p>
+                            <a href="src/Landing/servicios.html" 
+                               class="text-blue-600 hover:text-blue-800 font-semibold flex items-center justify-center">
+                                Conocer más 
+                                <ion-icon name="arrow-forward" class="ml-2"></ion-icon>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Podología -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition duration-300 border-t-4 border-emerald-500">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <img src="src/Images/podo.png" alt="Podología" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Podología</h3>
+                            <p class="text-gray-600 mb-6">
+                                Cuidado integral de los pies con técnicas avanzadas y tratamientos personalizados.
+                            </p>
+                            <a href="src/Landing/servicios.html" 
+                               class="text-emerald-600 hover:text-emerald-800 font-semibold flex items-center justify-center">
+                                Conocer más 
+                                <ion-icon name="arrow-forward" class="ml-2"></ion-icon>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Tamizaje -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition duration-300 border-t-4 border-purple-500">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <img src="src/Images/tamiz.png" alt="Tamizaje" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Tamizaje</h3>
+                            <p class="text-gray-600 mb-6">
+                                Evaluaciones preventivas y diagnósticos tempranos para mantener tu salud óptima.
+                            </p>
+                            <a href="src/Landing/servicios.html" 
+                               class="text-purple-600 hover:text-purple-800 font-semibold flex items-center justify-center">
+                                Conocer más 
+                                <ion-icon name="arrow-forward" class="ml-2"></ion-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="bg-gradient-to-r from-blue-600 to-emerald-600 py-16">
+            <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                    ¿Listo para cuidar tu salud?
+                </h2>
+                <p class="text-xl text-blue-100 mb-8">
+                    Únete a miles de pacientes que confían en nuestro sistema médico integral
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="src/Landing/registrar.html" 
+                       class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition duration-200 flex items-center justify-center">
+                        <ion-icon name="person-add" class="mr-2"></ion-icon>
+                        Crear Mi Cuenta
+                    </a>
+                    <a href="src/Landing/contacto.html" 
+                       class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-lg font-bold text-lg transition duration-200 flex items-center justify-center">
+                        <ion-icon name="call" class="mr-2"></ion-icon>
+                        Contactar
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo y descripción -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <img class="h-10 w-10 rounded-lg mr-3" src="src/Images/logopropieel.png" alt="PropielEquipo">
+                        <span class="text-xl font-bold text-gray-900">PropielEquipo</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Sistema médico integral con más de 30 años de experiencia en dermatología 
+                        y atención especializada. Tecnología moderna para el cuidado de tu salud.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200">
+                            <ion-icon name="logo-facebook" class="text-xl"></ion-icon>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200">
+                            <ion-icon name="logo-instagram" class="text-xl"></ion-icon>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-600 transition duration-200">
+                            <ion-icon name="logo-twitter" class="text-xl"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Enlaces rápidos -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Enlaces</h3>
+                    <ul class="space-y-2">
+                        <li><a href="src/Landing/servicios.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Servicios</a></li>
+                        <li><a href="src/Landing/valores.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Valores</a></li>
+                        <li><a href="src/Landing/contacto.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Contacto</a></li>
+                        <li><a href="src/Landing/login.html" class="text-gray-600 hover:text-blue-600 transition duration-200">Iniciar Sesión</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Contacto</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-600">
+                            <ion-icon name="call" class="mr-2"></ion-icon>
+                            +52 (xxx) xxx-xxxx
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <ion-icon name="mail" class="mr-2"></ion-icon>
+                            info@propielequipo.com
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <ion-icon name="location" class="mr-2"></ion-icon>
+                            Ubicación disponible
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8 mt-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <p class="text-sm text-gray-600">
+                        © 2025 PropielEquipo. Todos los derechos reservados.
+                    </p>
+                    <div class="mt-4 md:mt-0">
+                        <p class="text-sm text-gray-500">
+                            Sistema médico seguro y confiable
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('mobile-menu-icon');
+            
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.name = 'menu';
+            } else {
+                menuIcon.name = 'close';
+            }
+        }
+
+        // Animaciones suaves al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observar elementos para animaciones
+            document.querySelectorAll('.grid > div').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>

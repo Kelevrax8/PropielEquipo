@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Personal Médico - PropielEquipo</title>
+    <link href="../output.css" rel="stylesheet">
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 to-teal-100 min-h-screen flex items-center justify-center p-4">
+    
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full overflow-hidden">
+        <div class="grid md:grid-cols-2 gap-0">
+            <!-- Sección izquierda con información -->
+            <div class="bg-gradient-to-br from-emerald-600 to-teal-700 p-6 md:p-12 text-white flex flex-col justify-center">
+                <div class="mb-4 md:mb-6">
+                    <div class="flex justify-center md:justify-start mb-3 md:mb-4">
+                        <img src="../Images/logopropieel.png" alt="PropielEquipo" class="w-20 h-20 md:w-24 md:h-24">
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-bold mb-2 md:mb-3 text-center md:text-left">Registro de Personal Médico</h1>
+                    <p class="text-emerald-100 text-base md:text-lg leading-relaxed text-center md:text-left">
+                        Únete a nuestro equipo de especialistas en dermatología, podología y tamizaje médico.
+                    </p>
+                </div>
+                
+                <div class="space-y-3 md:space-y-4">
+                    <div class="flex items-center justify-center md:justify-start">
+                        <ion-icon name="medical" class="text-xl md:text-2xl mr-3"></ion-icon>
+                        <span class="text-sm md:text-base">Especialistas certificados</span>
+                    </div>
+                    <div class="flex items-center justify-center md:justify-start">
+                        <ion-icon name="people" class="text-xl md:text-2xl mr-3"></ion-icon>
+                        <span class="text-sm md:text-base">Equipo multidisciplinario</span>
+                    </div>
+                    <div class="flex items-center justify-center md:justify-start">
+                        <ion-icon name="heart" class="text-xl md:text-2xl mr-3"></ion-icon>
+                        <span class="text-sm md:text-base">Atención de calidad</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección derecha con formulario -->
+            <div class="p-6 md:p-12">
+                <form action="php_action/registrarroot.php" method="post" class="space-y-4 md:space-y-6">
+                    <div class="text-center mb-6 md:mb-8">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">Crear Cuenta de Doctor</h2>
+                        <p class="text-sm md:text-base text-gray-600">Complete la información para registrar un nuevo especialista</p>
+                    </div>
+
+                    <!-- Información Personal -->
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="nombre" class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+                            <input type="text" 
+                                   id="nombre" 
+                                   name="nombre" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                                   pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" 
+                                   maxlength="50" 
+                                   required 
+                                   placeholder="Ingrese el nombre"/>
+                        </div>
+                        <div>
+                            <label for="apellido" class="block text-sm font-medium text-gray-700 mb-2">Apellido</label>
+                            <input type="text" 
+                                   id="apellido" 
+                                   name="apellido" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                                   pattern="[A-Za-záéíóúÁÉÍÓÚ\s]+" 
+                                   maxlength="50" 
+                                   required 
+                                   placeholder="Ingrese el apellido"/>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="edad" class="block text-sm font-medium text-gray-700 mb-2">Edad</label>
+                            <input type="number" 
+                                   id="edad" 
+                                   name="edad" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                                   min="25" 
+                                   max="75" 
+                                   required 
+                                   placeholder="Edad"/>
+                        </div>
+                        <div>
+                            <label for="genero" class="block text-sm font-medium text-gray-700 mb-2">Género</label>
+                            <select id="genero" 
+                                    name="genero" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                                    required>
+                                <option value="">Seleccionar género</option>
+                                <option value="1">Hombre</option>
+                                <option value="2">Mujer</option>
+                                <option value="3">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Información de Contacto -->
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+                        <input type="tel" 
+                               id="telefono" 
+                               name="telefono" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                               pattern="[0-9]{10}" 
+                               minlength="10" 
+                               maxlength="10" 
+                               required 
+                               placeholder="1234567890"/>
+                    </div>
+
+                    <!-- Cédula Profesional -->
+                    <div>
+                        <label for="cedula_profesional" class="block text-sm font-medium text-gray-700 mb-2">Cédula Profesional</label>
+                        <input type="text" 
+                               id="cedula_profesional" 
+                               name="cedula_profesional" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                               pattern="[0-9]+" 
+                               minlength="6" 
+                               maxlength="20" 
+                               required 
+                               placeholder="Número de cédula profesional"/>
+                        <p class="text-xs text-gray-500 mt-1">Ingrese su cédula profesional médica</p>
+                    </div>
+
+                    <!-- Especialidades Médicas -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Especialidades Médicas</label>
+                        <div class="grid grid-cols-1 gap-3">
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 cursor-pointer transition duration-200">
+                                <input type="checkbox" 
+                                       name="especialidades[]" 
+                                       value="1" 
+                                       class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"/>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">Dermatología</div>
+                                    <div class="text-sm text-gray-500">Especialista en piel y enfermedades cutáneas</div>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 cursor-pointer transition duration-200">
+                                <input type="checkbox" 
+                                       name="especialidades[]" 
+                                       value="2" 
+                                       class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"/>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">Podología</div>
+                                    <div class="text-sm text-gray-500">Especialista en cuidado y tratamiento de pies</div>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-emerald-50 cursor-pointer transition duration-200">
+                                <input type="checkbox" 
+                                       name="especialidades[]" 
+                                       value="3" 
+                                       class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"/>
+                                <div class="ml-3">
+                                    <div class="font-medium text-gray-900">Tamizaje</div>
+                                    <div class="text-sm text-gray-500">Tamizajes y evaluación médica preventiva</div>
+                                </div>
+                            </label>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">* Seleccione al menos una especialidad</p>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-200"
+                               minlength="6" 
+                               required 
+                               placeholder="Contraseña segura"/>
+                        <p class="text-xs text-gray-500 mt-1">Mínimo 6 caracteres</p>
+                    </div>
+
+                    <!-- Botón de registro -->
+                    <button type="submit" 
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 px-6 rounded-lg font-semibold text-lg focus:ring-4 focus:ring-emerald-200 focus:outline-none transition duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
+                        Registrar Doctor
+                    </button>
+
+                    <!-- Enlaces adicionales -->
+                    <div class="text-center pt-4">
+                        <a href="login.html" class="text-emerald-600 hover:text-emerald-700 text-sm font-medium">
+                            ¿Ya tiene cuenta? Iniciar sesión
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Validación de especialidades
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const especialidades = document.querySelectorAll('input[name="especialidades[]"]:checked');
+            if (especialidades.length === 0) {
+                e.preventDefault();
+                alert('Por favor seleccione al menos una especialidad médica.');
+                return false;
+            }
+        });
+
+        // Validación de teléfono en tiempo real
+        document.getElementById('telefono').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Validación de cédula profesional en tiempo real
+        document.getElementById('cedula_profesional').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+
+</body>
+</html>

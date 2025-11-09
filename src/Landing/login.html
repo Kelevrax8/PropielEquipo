@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - PropielEquipo</title>
+    <link href="../output.css?v=1737737373" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-50">
+    
+    <!-- Navbar moderno -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo y marca -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-lg" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-bold text-gray-800">PropielEquipo</h1>
+                        <p class="text-xs text-gray-500">Sistema Médico Integral</p>
+                    </div>
+                </div>
+
+                <!-- Navegación escritorio -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../../index.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="home" class="mr-2"></ion-icon>
+                            Inicio
+                        </a>
+                        <a href="servicios.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="medical" class="mr-2"></ion-icon>
+                            Servicios
+                        </a>
+                        <a href="valores.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="heart" class="mr-2"></ion-icon>
+                            Valores
+                        </a>
+                        <a href="contacto.html" 
+                           class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="call" class="mr-2"></ion-icon>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="registrar.html" 
+                       class="text-blue-600 hover:text-blue-800 px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Registrarse
+                    </a>
+                    <span class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium">
+                        Iniciar Sesión
+                    </span>
+                </div>
+
+                <!-- Botón menú móvil -->
+                <div class="md:hidden">
+                    <button type="button" 
+                            id="mobile-menu-button"
+                            class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-200 transition duration-200"
+                            onclick="toggleMobileMenu()">
+                        <ion-icon name="menu" id="mobile-menu-icon" class="text-xl"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="../../index.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="home" class="mr-3"></ion-icon>
+                    Inicio
+                </a>
+                <a href="servicios.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="medical" class="mr-3"></ion-icon>
+                    Servicios
+                </a>
+                <a href="valores.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="heart" class="mr-3"></ion-icon>
+                    Valores
+                </a>
+                <a href="contacto.html" 
+                   class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="call" class="mr-3"></ion-icon>
+                    Contacto
+                </a>
+                <div class="border-t pt-2 mt-2">
+                    <a href="registrar.html" 
+                       class="text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="person-add" class="mr-3"></ion-icon>
+                        Registrarse
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="max-w-md w-full">
+            <!-- Card de login -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-sm">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-emerald-600 rounded-full flex items-center justify-center mb-4">
+                        <ion-icon name="log-in" class="text-white text-2xl"></ion-icon>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Bienvenido</h2>
+                    <p class="text-gray-600">Accede a tu cuenta de PropielEquipo</p>
+                </div>
+                
+                <!-- Formulario -->
+                <form action="php_action/login.php" method="post" class="space-y-6">
+                    <div>
+                        <label for="telefono" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <ion-icon name="call" class="mr-2 text-blue-600"></ion-icon>
+                            Número Telefónico
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="telefono" 
+                            name="telefono"
+                            maxlength="10"
+                            pattern="[0-9]{10}"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white"
+                            placeholder="Ingresa tu número telefónico (10 dígitos)"
+                            required
+                        />
+                    </div>
+            
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <ion-icon name="lock-closed" class="mr-2 text-blue-600"></ion-icon>
+                            Contraseña
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 bg-gray-50 focus:bg-white"
+                            placeholder="Ingresa tu contraseña"
+                            required
+                        />
+                    </div>
+            
+                    <button 
+                        type="submit" 
+                        name="login" 
+                        value="login"
+                        class="w-full bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center shadow-lg hover:shadow-xl">
+                        <ion-icon name="log-in" class="mr-2"></ion-icon>
+                        Iniciar Sesión
+                    </button>
+                </form>
+                
+                <!-- Enlaces adicionales -->
+                <div class="mt-8 text-center">
+                    <p class="text-sm text-gray-600 mb-4">
+                        ¿No tienes una cuenta?
+                    </p>
+                    <a href="registrar.html" 
+                       class="inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold text-sm transition duration-200">
+                        <ion-icon name="person-add" class="mr-2"></ion-icon>
+                        Crear cuenta nueva
+                    </a>
+                </div>
+                
+                <!-- Divider -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <p class="text-center text-xs text-gray-500">
+                        Sistema seguro y confiable para el manejo de información médica
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Información adicional -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    ¿Problemas para acceder? 
+                    <a href="contacto.html" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Contacta soporte
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img class="h-8 w-8 rounded-lg mr-3" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    <span class="text-gray-900 font-bold">PropielEquipo</span>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-sm text-gray-600">
+                        © 2025 PropielEquipo. Todos los derechos reservados.
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                        Sistema médico integral y seguro
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('mobile-menu-icon');
+            
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.name = 'menu';
+            } else {
+                menuIcon.name = 'close';
+            }
+        }
+
+        // Animación suave para el formulario
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input');
+            const telefonoInput = document.getElementById('telefono');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+            });
+
+            // Validación en tiempo real para el teléfono
+            telefonoInput.addEventListener('input', function(e) {
+                // Permitir solo números
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Limitar a 10 dígitos
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+                
+                // Cambiar color del borde según validación
+                if (this.value.length === 10) {
+                    this.classList.remove('border-red-300');
+                    this.classList.add('border-green-300');
+                } else if (this.value.length > 0) {
+                    this.classList.remove('border-green-300');
+                    this.classList.add('border-red-300');
+                } else {
+                    this.classList.remove('border-red-300', 'border-green-300');
+                }
+            });
+
+            // Validación del formulario antes de enviar
+            form.addEventListener('submit', function(e) {
+                const telefono = telefonoInput.value;
+                
+                if (telefono.length !== 10) {
+                    e.preventDefault();
+                    alert('El número telefónico debe contener exactamente 10 dígitos');
+                    telefonoInput.focus();
+                    return false;
+                }
+                
+                if (!/^[0-9]{10}$/.test(telefono)) {
+                    e.preventDefault();
+                    alert('El número telefónico solo puede contener números');
+                    telefonoInput.focus();
+                    return false;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

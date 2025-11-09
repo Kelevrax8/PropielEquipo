@@ -1,0 +1,20 @@
+# Proteger archivos de consentimiento
+# Solo permitir acceso a través del viewer seguro (view_pdf.php)
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Denegar acceso directo a archivos PDF
+<Files "*.pdf">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Permitir acceso a los scripts PHP de seguridad
+<FilesMatch "^(view_pdf|index|save_consent)\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Mensaje personalizado para acceso denegado
+ErrorDocument 403 "Acceso restringido - Solo personal autorizado. Use el sistema de visualización."

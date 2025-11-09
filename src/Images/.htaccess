@@ -1,0 +1,35 @@
+# Configuración para imágenes públicas - PropielEquipo
+# Solo para archivos de interfaz y logos públicos
+
+# Permitir acceso a imágenes públicas necesarias para la interfaz
+<Files ~ "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Order Allow,Deny
+    Allow from all
+    
+    # Cabeceras de optimización para imágenes públicas
+    <IfModule mod_expires.c>
+        ExpiresActive on
+        ExpiresByType image/png "access plus 1 month"
+        ExpiresByType image/jpg "access plus 1 month"
+        ExpiresByType image/jpeg "access plus 1 month"
+        ExpiresByType image/gif "access plus 1 month"
+        ExpiresByType image/webp "access plus 1 month"
+        ExpiresByType image/svg+xml "access plus 1 month"
+        ExpiresByType image/x-icon "access plus 1 year"
+    </IfModule>
+    
+    # Cabeceras de seguridad básicas
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+</Files>
+
+# Deshabilitar listado de directorio por seguridad
+Options -Indexes
+
+# Proteger archivos de configuración
+<Files ~ "^\.">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Nota: Las imágenes médicas están protegidas en el subdirectorio ImgMedicas/

@@ -1,0 +1,65 @@
+# Sensitive Configuration Files
+src/database_connection.php
+src/condb.php
+
+# Environment-specific files
+.env
+.env.local
+config/database.php
+
+# User uploaded files (too large for Git)
+src/Images/ImgMedicas/*.jpg
+src/Images/ImgMedicas/*.jpeg
+src/Images/ImgMedicas/*.png
+src/Images/ImgMedicas/*.webp
+src/Images/ImgMedicas/*.gif
+src/consentimientos/*.pdf
+
+# Keep directory structure but ignore contents
+!src/Images/ImgMedicas/.gitkeep
+!src/consentimientos/.gitkeep
+
+# Logs
+src/logs/*.log
+*.log
+
+# Database exports (too large, version separately)
+*.sql.backup
+backups/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# Node modules (if using npm for Tailwind)
+node_modules/
+package-lock.json
+
+# Compiled CSS (if regenerating from Tailwind)
+# Uncomment if you want to regenerate output.css on each environment
+# src/output.css
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.cache
+
+# PHP session files
+sessions/
+*.sess

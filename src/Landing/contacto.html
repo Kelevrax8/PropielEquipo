@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - PropielEquipo</title>
+    <link href="../output.css?v=1737737373" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-50 to-blue-50">
+    
+    <!-- Navbar moderno -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo y marca -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-lg" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    </div>
+                    <div class="ml-4">
+                        <h1 class="text-xl font-bold text-gray-800">PropielEquipo</h1>
+                        <p class="text-xs text-gray-500">Sistema Médico Integral</p>
+                    </div>
+                </div>
+
+                <!-- Navegación escritorio -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="../../index.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="home" class="mr-2"></ion-icon>
+                            Inicio
+                        </a>
+                        <a href="servicios.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="medical" class="mr-2"></ion-icon>
+                            Servicios
+                        </a>
+                        <a href="valores.html" 
+                           class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <ion-icon name="heart" class="mr-2"></ion-icon>
+                            Valores
+                        </a>
+                        <a href="contacto.html" 
+                           class="text-emerald-600 bg-emerald-50 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                            <ion-icon name="call" class="mr-2"></ion-icon>
+                            Contacto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="registrar.html" 
+                       class="text-emerald-600 hover:text-emerald-800 px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Registrarse
+                    </a>
+                    <a href="login.html"
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-200">
+                        Iniciar Sesión
+                    </a>
+                </div>
+
+                <!-- Botón menú móvil -->
+                <div class="md:hidden">
+                    <button type="button" 
+                            id="mobile-menu-button"
+                            class="bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-200 transition duration-200"
+                            onclick="toggleMobileMenu()">
+                        <ion-icon name="menu" id="mobile-menu-icon" class="text-xl"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="../../index.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="home" class="mr-3"></ion-icon>
+                    Inicio
+                </a>
+                <a href="servicios.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="medical" class="mr-3"></ion-icon>
+                    Servicios
+                </a>
+                <a href="valores.html" 
+                   class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="heart" class="mr-3"></ion-icon>
+                    Valores
+                </a>
+                <a href="contacto.html" 
+                   class="text-emerald-600 bg-emerald-50 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <ion-icon name="call" class="mr-3"></ion-icon>
+                    Contacto
+                </a>
+                <div class="border-t pt-2 mt-2 space-y-2">
+                    <a href="registrar.html" 
+                       class="text-emerald-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="person-add" class="mr-3"></ion-icon>
+                        Registrarse
+                    </a>
+                    <a href="login.html" 
+                       class="text-blue-600 px-3 py-2 rounded-md text-base font-medium flex items-center">
+                        <ion-icon name="log-in" class="mr-3"></ion-icon>
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-emerald-600 to-blue-600 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                        ¡No pongas la salud en segundo plano!
+                    </h1>
+                    <p class="text-xl text-emerald-100 mb-8">
+                        Agenda hoy una cita para una imagen saludable. Estamos aquí para cuidarte 
+                        con la atención médica que mereces.
+                    </p>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 mb-6">
+                        <div class="flex items-center mb-2">
+                            <ion-icon name="time" class="text-emerald-300 mr-3 text-xl"></ion-icon>
+                            <span class="font-semibold">Horarios de Atención</span>
+                        </div>
+                        <p class="text-emerald-100">Lunes - Viernes: 09:00 AM - 06:00 PM</p>
+                        <p class="text-emerald-100">Sábados: 09:00 AM - 02:00 PM</p>
+                    </div>
+                    <a href="#contacto-form" 
+                       class="bg-white text-emerald-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition duration-200 inline-flex items-center">
+                        <ion-icon name="calendar" class="mr-2"></ion-icon>
+                        Agendar Cita Ahora
+                    </a>
+                </div>
+                <div class="flex justify-center lg:justify-end">
+                    <img class="w-full max-w-md h-auto rounded-2xl shadow-2xl" src="../Images/cta_img.png" alt="Atención Médica">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ubicación y horarios -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Información de ubicación -->
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8">Nuestra Ubicación</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mr-4 mt-1">
+                                <ion-icon name="location" class="text-emerald-600 text-xl"></ion-icon>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Dirección</h3>
+                                <p class="text-gray-600">
+                                    Carrera 15 #123-45, Zona Rosa<br>
+                                    Bogotá, Colombia
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4 mt-1">
+                                <ion-icon name="time" class="text-blue-600 text-xl"></ion-icon>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Horarios de Atención</h3>
+                                <div class="text-gray-600 space-y-1">
+                                    <p>Lunes - Viernes: 09:00 AM - 06:00 PM</p>
+                                    <p>Sábados: 09:00 AM - 02:00 PM</p>
+                                    <p>Domingos: Cerrado</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4 mt-1">
+                                <ion-icon name="medical" class="text-purple-600 text-xl"></ion-icon>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Servicios de Emergencia</h3>
+                                <p class="text-gray-600">
+                                    Para emergencias médicas, contacta inmediatamente al 
+                                    <span class="font-semibold text-red-600">+57 300 123 4567</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-emerald-50 rounded-2xl">
+                        <h3 class="font-semibold text-emerald-800 mb-3">
+                            <ion-icon name="information-circle" class="mr-2"></ion-icon>
+                            Información Importante
+                        </h3>
+                        <ul class="text-emerald-700 space-y-2">
+                            <li>• Se requiere cita previa para todas las consultas</li>
+                            <li>• Llegar 15 minutos antes de la cita programada</li>
+                            <li>• Traer documento de identidad y carnet de seguro médico</li>
+                            <li>• Cancelaciones con mínimo 24 horas de anticipación</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Mapa placeholder -->
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8">Cómo Llegar</h2>
+                    <div class="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
+                        <div class="text-center">
+                            <ion-icon name="map" class="text-6xl text-gray-400 mb-4"></ion-icon>
+                            <p class="text-gray-600 font-medium">Mapa Interactivo</p>
+                            <p class="text-sm text-gray-500">Ubicación de la clínica</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 grid grid-cols-2 gap-4">
+                        <a href="#" 
+                           class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 text-center">
+                            <ion-icon name="navigate" class="mr-2"></ion-icon>
+                            Abrir en Maps
+                        </a>
+                        <a href="#" 
+                           class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium transition duration-200 text-center">
+                            <ion-icon name="car" class="mr-2"></ion-icon>
+                            Cómo Llegar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img class="h-8 w-8 rounded-lg mr-3" src="../Images/logopropieel.png" alt="PropielEquipo">
+                    <span class="text-gray-900 font-bold">PropielEquipo</span>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-sm text-gray-600">
+                        © 2025 PropielEquipo. Todos los derechos reservados.
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                        Tu salud es nuestra prioridad
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('mobile-menu-icon');
+            
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.name = 'menu';
+            } else {
+                menuIcon.name = 'close';
+            }
+        }
+
+        // Smooth scroll para enlaces internos
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Validación del formulario
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Aquí se puede agregar la lógica de envío del formulario
+                    alert('¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.');
+                });
+            }
+
+            // Animaciones al hacer scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observar elementos para animación
+            document.querySelectorAll('.grid > div, form, .bg-white').forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
