@@ -1,29 +1,52 @@
 -- Seed Development Database with Test Data
 -- This creates fake patients, doctors, and appointments
 -- Run: mysql -u root -p propielequipo < tests/seed_database.sql
+-- 
+-- CREDENTIALS FOR TESTING:
+-- Username: Phone number (e.g., 0000000001)
+-- Password: test123 (for all users)
 
--- Insert test patients
+-- Insert test doctors (3 per specialty)
+-- Password for all: test123
+INSERT INTO usuarios (rol, nombre, apellido, edad, telefono, password, genero, cedula_profesional) VALUES
+-- Dermatología doctors
+(1, 'Carlos', 'Mendoza', 45, '0000000001', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '1234567'),
+(1, 'Ana', 'Rodriguez', 38, '0000000002', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '2345678'),
+(1, 'Roberto', 'Silva', 52, '0000000003', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '3456789'),
+-- Podología doctors
+(1, 'Laura', 'Martinez', 41, '0000000004', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '4567890'),
+(1, 'Miguel', 'Gonzalez', 47, '0000000005', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '5678901'),
+(1, 'Sofia', 'Torres', 35, '0000000006', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '6789012'),
+-- Tamizaje doctors
+(1, 'Jorge', 'Ramirez', 43, '0000000007', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '7890123'),
+(1, 'Patricia', 'Flores', 39, '0000000008', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '8901234'),
+(1, 'Fernando', 'Castro', 50, '0000000009', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '9012345');
+
+-- Insert test patients (10 patients)
+-- Password for all: test123
 INSERT INTO usuarios (rol, nombre, apellido, edad, telefono, password, genero) VALUES
-(3, 'Test', 'Patient1', 30, '0000000001', '$2y$10$test.hash.here', 1),
-(3, 'Test', 'Patient2', 25, '0000000002', '$2y$10$test.hash.here', 2),
-(3, 'Test', 'Patient3', 40, '0000000003', '$2y$10$test.hash.here', 1),
-(3, 'Test', 'Patient4', 35, '0000000004', '$2y$10$test.hash.here', 2),
-(3, 'Test', 'Patient5', 28, '0000000005', '$2y$10$test.hash.here', 1);
+(3, 'Juan', 'Perez', 28, '0000000010', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+(3, 'Maria', 'Lopez', 34, '0000000011', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+(3, 'Pedro', 'Garcia', 45, '0000000012', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+(3, 'Carmen', 'Hernandez', 29, '0000000013', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+(3, 'Luis', 'Morales', 52, '0000000014', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+(3, 'Elena', 'Jimenez', 31, '0000000015', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+(3, 'Ricardo', 'Vargas', 40, '0000000016', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+(3, 'Diana', 'Ruiz', 26, '0000000017', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+(3, 'Antonio', 'Ortiz', 38, '0000000018', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+(3, 'Rosa', 'Sanchez', 33, '0000000019', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2);
 
--- Insert test doctors (if not exists)
--- These should match your existing doctors or create new test ones
-
--- Insert test appointments
-INSERT INTO citas (id_usuario, id_doctor, fecha, horario, servicio, estado, notas) VALUES
-((SELECT user_id FROM usuarios WHERE telefono = '0000000001'), 19, DATE_ADD(CURDATE(), INTERVAL 1 DAY), '10:00', 'dermatología', 'pendiente', 'Test appointment 1'),
-((SELECT user_id FROM usuarios WHERE telefono = '0000000002'), 21, DATE_ADD(CURDATE(), INTERVAL 2 DAY), '11:00', 'podología', 'pendiente', 'Test appointment 2'),
-((SELECT user_id FROM usuarios WHERE telefono = '0000000003'), 22, DATE_ADD(CURDATE(), INTERVAL 3 DAY), '14:00', 'tamiz', 'pendiente', 'Test appointment 3');
-
--- Insert test medical images references
-INSERT INTO imagenes_medicas (id_paciente, nombre_archivo, descripcion, tipo_imagen) VALUES
-((SELECT user_id FROM usuarios WHERE telefono = '0000000001'), 'test_image_1.jpg', 'Test image for development', 'dermatologia'),
-((SELECT user_id FROM usuarios WHERE telefono = '0000000002'), 'test_image_2.jpg', 'Test image for development', 'podologia'),
-((SELECT user_id FROM usuarios WHERE telefono = '0000000003'), 'test_image_3.jpg', 'Test image for development', 'tamiz');
-
--- Note: Actual image/PDF files must be created separately
--- Run: php tests/generate_test_data.php
+-- Link doctors to their specialties
+INSERT INTO doctor_especialidades (id_doctor, id_especialidad) VALUES
+-- Dermatología (especialidad 1)
+((SELECT user_id FROM usuarios WHERE telefono = '0000000001'), 1),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000002'), 1),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000003'), 1),
+-- Podología (especialidad 2)
+((SELECT user_id FROM usuarios WHERE telefono = '0000000004'), 2),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000005'), 2),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000006'), 2),
+-- Tamizaje (especialidad 3)
+((SELECT user_id FROM usuarios WHERE telefono = '0000000007'), 3),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000008'), 3),
+((SELECT user_id FROM usuarios WHERE telefono = '0000000009'), 3);
