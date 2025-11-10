@@ -455,7 +455,20 @@ class PropielEquipoQueries {
      * MEDICAL STAFF MANAGEMENT QUERIES
      */
     
-    // Register medical staff with specialties
+    /**
+     * Register medical staff with specialties
+     * 
+     * @param string $nombre First name
+     * @param string $apellido Last name
+     * @param int $edad Age
+     * @param string $telefono Phone number
+     * @param string|null $email Email address (optional)
+     * @param string $password Plain text password (will be hashed)
+     * @param int $genero Gender ID
+     * @param array $especialidades Array of specialty IDs
+     * @param string|null $cedula_profesional Professional license number
+     * @return int|false Doctor ID on success, false on failure
+     */
     public function registerMedicalStaff($nombre, $apellido, $edad, $telefono, $email, $password, $genero, $especialidades = [], $cedula_profesional = null) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         

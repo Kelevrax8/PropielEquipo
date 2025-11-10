@@ -1,0 +1,41 @@
+# Docker Compose for Development Environment
+# Includes pre-seeded database and sample files
+
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.4
+    container_name: propiel_db
+    environment:
+      MYSQL_ROOT_PASSWORD: dev_password
+      MYSQL_DATABASE: propielequipo
+    volumes:
+      - ./currentdb.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  php:
+    image: php:8.2-apache
+    container_name: propiel_web
+    volumes:
+      - ./src:/var/www/html
+      - ./tests/sample_data/images:/var/www/html/Images/ImgMedicas
+      - ./tests/sample_data/pdfs:/var/www/html/consentimientos
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=propielequipo
+      - DB_USER=root
+      - DB_PASSWORD=dev_password
+
+volumes:
+  db_data:
+
+# Usage:
+# docker-compose up -d
+# Access at: http://localhost:8080

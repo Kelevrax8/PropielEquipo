@@ -15,6 +15,13 @@ src/Images/ImgMedicas/*.webp
 src/Images/ImgMedicas/*.gif
 src/consentimientos/*.pdf
 
+# BUT allow test files (small, fake data)
+!src/Images/ImgMedicas/test_*.jpg
+!src/consentimientos/test_*.pdf
+
+# Test data directory (these ARE committed)
+!tests/sample_data/**
+
 # Keep directory structure but ignore contents
 !src/Images/ImgMedicas/.gitkeep
 !src/consentimientos/.gitkeep
