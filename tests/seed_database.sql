@@ -10,31 +10,31 @@
 -- Password for all: test123
 INSERT INTO usuarios (rol, nombre, apellido, edad, telefono, password, genero, cedula_profesional) VALUES
 -- Dermatología doctors
-(1, 'Carlos', 'Mendoza', 45, '0000000001', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '1234567'),
-(1, 'Ana', 'Rodriguez', 38, '0000000002', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '2345678'),
-(1, 'Roberto', 'Silva', 52, '0000000003', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '3456789'),
+(1, 'Carlos', 'Mendoza', 45, '0000000001', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1, '1234567'),
+(1, 'Ana', 'Rodriguez', 38, '0000000002', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2, '2345678'),
+(1, 'Roberto', 'Silva', 52, '0000000003', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1, '3456789'),
 -- Podología doctors
-(1, 'Laura', 'Martinez', 41, '0000000004', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '4567890'),
-(1, 'Miguel', 'Gonzalez', 47, '0000000005', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '5678901'),
-(1, 'Sofia', 'Torres', 35, '0000000006', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '6789012'),
+(1, 'Laura', 'Martinez', 41, '0000000004', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2, '4567890'),
+(1, 'Miguel', 'Gonzalez', 47, '0000000005', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1, '5678901'),
+(1, 'Sofia', 'Torres', 35, '0000000006', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2, '6789012'),
 -- Tamizaje doctors
-(1, 'Jorge', 'Ramirez', 43, '0000000007', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '7890123'),
-(1, 'Patricia', 'Flores', 39, '0000000008', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, '8901234'),
-(1, 'Fernando', 'Castro', 50, '0000000009', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, '9012345');
+(1, 'Jorge', 'Ramirez', 43, '0000000007', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1, '7890123'),
+(1, 'Patricia', 'Flores', 39, '0000000008', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2, '8901234'),
+(1, 'Fernando', 'Castro', 50, '0000000009', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1, '9012345');
 
 -- Insert test patients (10 patients)
 -- Password for all: test123
 INSERT INTO usuarios (rol, nombre, apellido, edad, telefono, password, genero) VALUES
-(3, 'Juan', 'Perez', 28, '0000000010', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-(3, 'Maria', 'Lopez', 34, '0000000011', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-(3, 'Pedro', 'Garcia', 45, '0000000012', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-(3, 'Carmen', 'Hernandez', 29, '0000000013', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-(3, 'Luis', 'Morales', 52, '0000000014', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-(3, 'Elena', 'Jimenez', 31, '0000000015', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-(3, 'Ricardo', 'Vargas', 40, '0000000016', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-(3, 'Diana', 'Ruiz', 26, '0000000017', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-(3, 'Antonio', 'Ortiz', 38, '0000000018', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-(3, 'Rosa', 'Sanchez', 33, '0000000019', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2);
+(3, 'Juan', 'Perez', 28, '0000000010', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1),
+(3, 'Maria', 'Lopez', 34, '0000000011', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2),
+(3, 'Pedro', 'Garcia', 45, '0000000012', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1),
+(3, 'Carmen', 'Hernandez', 29, '0000000013', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2),
+(3, 'Luis', 'Morales', 52, '0000000014', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1),
+(3, 'Elena', 'Jimenez', 31, '0000000015', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2),
+(3, 'Ricardo', 'Vargas', 40, '0000000016', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1),
+(3, 'Diana', 'Ruiz', 26, '0000000017', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2),
+(3, 'Antonio', 'Ortiz', 38, '0000000018', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 1),
+(3, 'Rosa', 'Sanchez', 33, '0000000019', '$2y$10$knurylDF8Uu9IPOhnHXIru7s/gdg7hdz2NAxYl3WULYz/do4gIWgW', 2);
 
 -- Link doctors to their specialties
 INSERT INTO doctor_especialidades (id_doctor, id_especialidad) VALUES
