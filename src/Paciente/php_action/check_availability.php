@@ -26,7 +26,8 @@ try {
     
     $fecha = $_GET['fecha'];
     $horario = $_GET['horario'];
-    $servicio = isset($_GET['servicio']) ? $_GET['servicio'] : null; // Nuevo parámetro para especialidad
+    $servicio = isset($_GET['servicio']) ? $_GET['servicio'] : null; // Parámetro para especialidad
+    $id_doctor = isset($_GET['id_doctor']) ? intval($_GET['id_doctor']) : null; // Parámetro para doctor específico
     
     // Validar formato de fecha (YYYY-MM-DD)
     if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
@@ -60,21 +61,23 @@ try {
         exit();
     }
     
-    // Verificar disponibilidad del horario para la especialidad específica
-    $available = $db_queries->isTimeSlotAvailable($fecha, $horario, $servicio);
+    // Verificar disponibilidad del horario para el doctor específico (si se proporciona) o especialidad
+    $available = $db_queries->isTimeSlotAvailable($fecha, $horario, $servicio, $id_doctor);
     
     // Obtener información adicional sobre las citas existentes en esa fecha y especialidad
     $citasDelDia = $db_queries->getAppointmentsByDateAndSpecialty($fecha, $servicio);
     $horariosOcupados = array_column($citasDelDia, 'horario');
     
     // Información adicional para debugging
+    $messageContext = $id_doctor ? 'este doctor' : 'esta especialidad';
     $info = [
         'success' => true,
         'available' => $available,
         'fecha' => $fecha,
         'horario' => $horario,
         'servicio' => $servicio,
-        'message' => $available ? 'Horario disponible' : 'Horario ya reservado para esta especialidad',
+        'id_doctor' => $id_doctor,
+        'message' => $available ? 'Horario disponible' : "Horario ya reservado para $messageContext",
         'horarios_ocupados_especialidad' => $horariosOcupados,
         'total_citas_especialidad' => count($citasDelDia)
     ];

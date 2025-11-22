@@ -1,0 +1,20 @@
+# Directorio para Comprobantes de Pago
+
+Este directorio almacena los comprobantes de transferencia SPEI subidos por los pacientes.
+
+## Seguridad
+- Los archivos reales NO se suben a Git (protegidos por .gitignore)
+- Solo archivos de prueba (test_*.jpg, test_*.png) se permiten en el repositorio
+
+## Estructura de archivos
+Los comprobantes se guardan con el formato:
+`comprobante_cita_{id_cita}_{timestamp}.{extensión}`
+
+Ejemplo: `comprobante_cita_42_1731612345.jpg`
+
+## Permisos
+Asegúrate de que este directorio tenga permisos de escritura (755 o 775)
+
+```bash
+chmod 755 src/comprobantes_pago/
+```

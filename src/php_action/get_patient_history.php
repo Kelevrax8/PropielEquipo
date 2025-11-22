@@ -96,9 +96,11 @@ try {
         sendResponse(false, null, 'Paciente no encontrado');
     }
     
-    // Obtener citas de dermatología del paciente
-    $query_citas = "SELECT c.id_cita, c.fecha, c.horario, c.servicio, c.estado, c.notas
+    // Obtener citas de dermatología del paciente con información del doctor
+    $query_citas = "SELECT c.id_cita, c.fecha, c.horario, c.servicio, c.estado, c.notas,
+                           u_doc.nombre as doctor_nombre, u_doc.apellido as doctor_apellido
                     FROM citas c
+                    LEFT JOIN usuarios u_doc ON c.id_doctor = u_doc.user_id
                     WHERE c.id_usuario = ? 
                     AND LOWER(c.servicio) LIKE '%dermat%'
                     ORDER BY c.fecha DESC, c.horario DESC";
@@ -111,6 +113,13 @@ try {
     
     // Procesar las citas obtenidas
     foreach ($todas_citas as $cita) {
+        $doctor_nombre = 'No especificado';
+        if (!empty($cita['doctor_nombre']) && !empty($cita['doctor_apellido'])) {
+            $doctor_nombre = 'Dr. ' . $cita['doctor_nombre'] . ' ' . $cita['doctor_apellido'];
+        } elseif (!empty($cita['doctor_nombre'])) {
+            $doctor_nombre = 'Dr. ' . $cita['doctor_nombre'];
+        }
+        
         $citas_dermatologia[] = [
             'id_cita' => $cita['id_cita'] ?? 'N/A',
             'fecha' => $cita['fecha'] ?? date('Y-m-d'),
@@ -119,7 +128,7 @@ try {
             'especialidad' => 'Dermatología',
             'notas' => $cita['notas'] ?? '',
             'estado' => $cita['estado'] ?? 'completada',
-            'doctor_nombre' => 'Dr. ' . ($_SESSION['nombre'] ?? 'No especificado')
+            'doctor_nombre' => $doctor_nombre
         ];
     }
     

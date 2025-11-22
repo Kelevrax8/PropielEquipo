@@ -54,7 +54,8 @@ try {
         
         // Ordenar por fecha más reciente
         usort($citas_dermatologia, function($a, $b) {
-            return strtotime($b['fecha'] . ' ' . $b['horario']) - strtotime($a['fecha'] . ' ' . $a['horario']);
+            // Ordenar por fecha de creación (más reciente primero)
+            return strtotime($b['fecha_creacion']) - strtotime($a['fecha_creacion']);
         });
         
     } catch (Exception $e) {
@@ -183,116 +184,54 @@ try {
         <!-- Tabla de Citas -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="bg-blue-600 text-white p-6">
-                <h2 class="text-xl font-bold flex items-center">
-                    <ion-icon name="list" class="mr-2"></ion-icon>
-                    Todas las Citas de Dermatología
-                </h2>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <ion-icon name="list" class="mr-2"></ion-icon>
+                        Citas de Dermatología
+                    </h2>
+                    
+                    <!-- Week Navigator -->
+                    <div class="flex items-center gap-2 bg-blue-700 rounded-lg px-4 py-2">
+                        <button onclick="changeWeek(-1)" class="text-white hover:text-blue-200 transition">
+                            <ion-icon name="arrow-back" class="text-xl"></ion-icon>
+                        </button>
+                        <span id="week-display" class="text-white font-medium text-sm sm:text-base min-w-[200px] text-center">
+                            Cargando...
+                        </span>
+                        <button onclick="changeWeek(1)" class="text-white hover:text-blue-200 transition">
+                            <ion-icon name="arrow-forward" class="text-xl"></ion-icon>
+                        </button>
+                        <button onclick="goToToday()" class="ml-2 text-white hover:text-blue-200 transition text-sm underline">
+                            Hoy
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Cita</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Observaciones</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if (count($citas_dermatologia) > 0): ?>
-                            <?php foreach ($citas_dermatologia as $cita): ?>
-                                <?php 
-                                $observaciones = htmlspecialchars($cita['notas'] ?? '');
-                                $observacionesCortas = strlen($observaciones) > 50 ? substr($observaciones, 0, 50) . '...' : $observaciones;
-                                
-                                // Calcular estado basado en fecha y hora - VERSIÓN MEJORADA
-                                $fecha_cita = $cita['fecha'];
-                                $hora_cita = $cita['horario'];
-                                
-                                // Crear DateTime de la cita
-                                $datetime_cita = DateTime::createFromFormat('Y-m-d H:i', $fecha_cita . ' ' . $hora_cita);
-                                if (!$datetime_cita) {
-                                    // Si falla el formato, intentar con otro formato común
-                                    $datetime_cita = DateTime::createFromFormat('Y-m-d H:i:s', $fecha_cita . ' ' . $hora_cita . ':00');
-                                }
-                                
-                                // Usar comparación de DateTime objects directamente para mayor precisión
-                                $fecha_cita_obj = DateTime::createFromFormat('Y-m-d', $fecha_cita);
-                                $fecha_hoy_obj = DateTime::createFromFormat('Y-m-d', $hoy);
-                                
-                                $es_hoy = ($fecha_cita_obj && $fecha_hoy_obj && $fecha_cita_obj->format('Y-m-d') === $fecha_hoy_obj->format('Y-m-d'));
-                                $es_pasada = ($datetime_cita && $datetime_cita < $datetime_actual);
-                                $es_futura = ($datetime_cita && $datetime_cita > $datetime_actual);
-                                
-                                // Determinar estado y color
-                                $estado_display = '';
-                                $color_estado = '';
-                                
-                                if ($es_hoy && !$es_pasada) {
-                                    $estado_display = 'Hoy - ' . $hora_cita;
-                                    $color_estado = 'bg-orange-100 text-orange-800';
-                                } elseif ($es_futura) {
-                                    $estado_display = 'Programada';
-                                    $color_estado = 'bg-green-100 text-green-800';
-                                } else {
-                                    $estado_display = 'Completada';
-                                    $color_estado = 'bg-gray-100 text-gray-800';
-                                }
-                                ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        #<?php echo htmlspecialchars($cita['id_cita']); ?>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?php echo htmlspecialchars($cita['paciente_nombre'] . ' ' . $cita['paciente_apellido']); ?>
-                                        </div>
-                                        <div class="text-sm text-gray-500">
-                                            Tel: <?php echo htmlspecialchars($cita['paciente_telefono']); ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <?php echo date('d/m/Y', strtotime($cita['fecha'])); ?>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <?php echo htmlspecialchars($cita['horario']); ?>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full <?php echo $color_estado; ?>">
-                                            <?php echo $estado_display; ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-600 max-w-xs" title="<?php echo $observaciones; ?>">
-                                            <?php echo $observacionesCortas ?: 'Sin observaciones'; ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button onclick="openObservationsModal(<?php echo $cita['id_cita']; ?>)" 
-                                                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition duration-200 flex items-center">
-                                            <ion-icon name="create" class="mr-1"></ion-icon>
-                                            Editar
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="7" class="px-6 py-12 text-center">
-                                    <div class="text-gray-500">
-                                        <ion-icon name="calendar-outline" class="text-6xl text-gray-300 mb-4"></ion-icon>
-                                        <p class="text-lg">No hay citas de dermatología registradas</p>
-                                        <p class="text-sm">Las citas aparecerán aquí cuando los pacientes las reserven</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+            <!-- View Toggle -->
+            <div class="px-6 py-4 bg-gray-50 border-b flex gap-2">
+                <button onclick="setViewMode('week')" id="week-view-btn" class="px-4 py-2 rounded-lg text-sm font-medium transition bg-blue-600 text-white">
+                    <ion-icon name="calendar" class="mr-1"></ion-icon>
+                    Vista Semanal
+                </button>
+                <button onclick="setViewMode('all')" id="all-view-btn" class="px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300">
+                    <ion-icon name="list" class="mr-1"></ion-icon>
+                    Todas las Citas
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto" id="appointments-container">
+                <!-- Week view will be rendered here -->
+            </div>
+            
+            <!-- Pagination Controls -->
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200" id="pagination-info">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-600">
+                        Mostrando <span id="showing-start">0</span> a <span id="showing-end">0</span> de <span id="total-appointments"><?php echo count($citas_dermatologia); ?></span> citas
+                    </div>
+                    <div class="flex gap-2" id="pagination-controls"></div>
+                </div>
             </div>
         </div>
 
@@ -420,6 +359,456 @@ try {
 
 <script>
     let currentAppointmentId = null;
+    
+    // Store all appointments data in JavaScript
+    const allAppointments = <?php echo json_encode($citas_dermatologia); ?>;
+    const currentDate = new Date('<?php echo $datetime_actual->format('Y-m-d H:i:s'); ?>');
+    
+    // Week navigation variables
+    let currentWeekStart = null;
+    let viewMode = 'week'; // 'week' or 'all'
+    
+    // Pagination variables (for 'all' view)
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    
+    // Initialize week to current week
+    function initializeWeek() {
+        const today = new Date(currentDate);
+        currentWeekStart = getWeekStart(today);
+        updateWeekDisplay();
+    }
+    
+    // Get the Monday of a given date
+    function getWeekStart(date) {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+        return new Date(d.setDate(diff));
+    }
+    
+    // Format date range for display
+    function formatWeekRange(startDate) {
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 6);
+        
+        const options = { day: '2-digit', month: 'short' };
+        const startStr = startDate.toLocaleDateString('es-MX', options);
+        const endStr = endDate.toLocaleDateString('es-MX', options);
+        
+        return `${startStr} - ${endStr}`;
+    }
+    
+    // Update week display text
+    function updateWeekDisplay() {
+        const weekDisplay = document.getElementById('week-display');
+        weekDisplay.textContent = formatWeekRange(currentWeekStart);
+    }
+    
+    // Change week
+    function changeWeek(direction) {
+        const newDate = new Date(currentWeekStart);
+        newDate.setDate(newDate.getDate() + (direction * 7));
+        currentWeekStart = newDate;
+        updateWeekDisplay();
+        renderView();
+    }
+    
+    // Go to current week
+    function goToToday() {
+        const today = new Date(currentDate);
+        currentWeekStart = getWeekStart(today);
+        updateWeekDisplay();
+        renderView();
+    }
+    
+    // Set view mode
+    function setViewMode(mode) {
+        viewMode = mode;
+        
+        // Update button styles
+        const weekBtn = document.getElementById('week-view-btn');
+        const allBtn = document.getElementById('all-view-btn');
+        
+        if (mode === 'week') {
+            weekBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition bg-blue-600 text-white';
+            allBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300';
+        } else {
+            weekBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-200 text-gray-700 hover:bg-gray-300';
+            allBtn.className = 'px-4 py-2 rounded-lg text-sm font-medium transition bg-blue-600 text-white';
+            currentPage = 1; // Reset to first page when switching to 'all' view
+        }
+        
+        renderView();
+    }
+    
+    // Main render function
+    function renderView() {
+        if (viewMode === 'week') {
+            renderWeekView();
+        } else {
+            renderAllView();
+        }
+    }
+    
+    // Render week view grouped by date
+    function renderWeekView() {
+        const container = document.getElementById('appointments-container');
+        
+        // Get appointments for current week (Monday to Sunday)
+        const weekEnd = new Date(currentWeekStart);
+        weekEnd.setDate(weekEnd.getDate() + 7);
+        weekEnd.setHours(0, 0, 0, 0); // Set to midnight
+        
+        const weekAppointments = allAppointments.filter(apt => {
+            const aptDate = new Date(apt.fecha + 'T00:00:00'); // Add time to avoid timezone issues
+            aptDate.setHours(0, 0, 0, 0); // Normalize to midnight
+            
+            const weekStartNormalized = new Date(currentWeekStart);
+            weekStartNormalized.setHours(0, 0, 0, 0);
+            
+            // Check if appointment is within the week (Monday to Sunday inclusive)
+            return aptDate >= weekStartNormalized && aptDate < weekEnd;
+        });
+        
+        if (weekAppointments.length === 0) {
+            container.innerHTML = `
+                <div class="px-6 py-12 text-center">
+                    <ion-icon name="calendar-outline" class="text-6xl text-gray-300 mb-4"></ion-icon>
+                    <p class="text-lg text-gray-500">No hay citas en esta semana</p>
+                    <p class="text-sm text-gray-400">Usa las flechas para navegar a otra semana</p>
+                </div>
+            `;
+            
+            // Hide pagination
+            document.getElementById('pagination-info').classList.add('hidden');
+            return;
+        }
+        
+        // Group by date
+        const groupedByDate = {};
+        weekAppointments.forEach(apt => {
+            const dateKey = apt.fecha;
+            if (!groupedByDate[dateKey]) {
+                groupedByDate[dateKey] = [];
+            }
+            groupedByDate[dateKey].push(apt);
+        });
+        
+        // Sort dates
+        const sortedDates = Object.keys(groupedByDate).sort();
+        
+        // Build HTML
+        let html = '';
+        
+        sortedDates.forEach(dateKey => {
+            const appointments = groupedByDate[dateKey];
+            const date = new Date(dateKey + 'T00:00:00'); // Add time to avoid timezone issues
+            const dateStr = date.toLocaleDateString('es-MX', { 
+                weekday: 'long', 
+                day: '2-digit', 
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Check if this is today
+            const today = new Date(currentDate);
+            const isToday = date.toDateString() === today.toDateString();
+            
+            html += `
+                <div class="border-b border-gray-200 last:border-b-0">
+                    <div class="bg-gradient-to-r ${isToday ? 'from-orange-50 to-orange-100' : 'from-gray-50 to-gray-100'} px-6 py-3 sticky top-0 z-10">
+                        <h3 class="text-lg font-semibold ${isToday ? 'text-orange-800' : 'text-gray-800'} capitalize flex items-center">
+                            ${isToday ? '<ion-icon name="today" class="mr-2 text-orange-600"></ion-icon>' : ''}
+                            ${dateStr}
+                            <span class="ml-3 text-sm font-normal ${isToday ? 'text-orange-600' : 'text-gray-600'}">
+                                (${appointments.length} ${appointments.length === 1 ? 'cita' : 'citas'})
+                            </span>
+                        </h3>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+            `;
+            
+            // Sort appointments by time
+            appointments.sort((a, b) => a.horario.localeCompare(b.horario));
+            
+            appointments.forEach(cita => {
+                const status = getAppointmentStatus(cita);
+                const observaciones = (cita.notas || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                const observacionesCortas = observaciones.length > 50 ? 
+                    observaciones.substring(0, 50) + '...' : observaciones;
+                
+                html += `
+                    <div class="px-6 py-4 hover:bg-gray-50 transition">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <!-- Time and Patient Info -->
+                            <div class="flex items-start gap-4 flex-1">
+                                <!-- Time Badge -->
+                                <div class="flex-shrink-0">
+                                    <div class="bg-blue-100 text-blue-800 font-bold text-lg px-3 py-2 rounded-lg text-center min-w-[70px]">
+                                        ${cita.horario}
+                                    </div>
+                                </div>
+                                
+                                <!-- Patient Details -->
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-semibold text-gray-900">
+                                            ${cita.paciente_nombre} ${cita.paciente_apellido}
+                                        </h4>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${status.color}">
+                                            ${status.display}
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">
+                                        <ion-icon name="call" class="text-xs"></ion-icon>
+                                        ${cita.paciente_telefono}
+                                    </p>
+                                    ${observaciones ? `
+                                        <p class="text-sm text-gray-500 mt-2">
+                                            <ion-icon name="document-text" class="text-xs"></ion-icon>
+                                            ${observacionesCortas}
+                                        </p>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            
+                            <!-- Action Button -->
+                            <div class="flex-shrink-0">
+                                <button onclick="openObservationsModal(${cita.id_cita})" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition duration-200 flex items-center w-full lg:w-auto justify-center">
+                                    <ion-icon name="create" class="mr-2"></ion-icon>
+                                    Ver/Editar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+        // Update pagination info
+        document.getElementById('pagination-info').classList.remove('hidden');
+        document.getElementById('showing-start').textContent = 1;
+        document.getElementById('showing-end').textContent = weekAppointments.length;
+        document.getElementById('total-appointments').textContent = weekAppointments.length;
+        document.getElementById('pagination-controls').innerHTML = '';
+    }
+    
+    // Render all appointments view (original table with pagination)
+    function renderAllView() {
+        const container = document.getElementById('appointments-container');
+        
+        // Create table structure
+        container.innerHTML = `
+            <table class="w-full" id="appointments-table">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Observaciones</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" id="appointments-tbody"></tbody>
+            </table>
+        `;
+        
+        renderAppointmentsTable();
+    }
+    
+    // Calculate appointment status
+    function getAppointmentStatus(appointment) {
+        const appointmentDateTime = new Date(appointment.fecha + ' ' + appointment.horario);
+        const appointmentDate = new Date(appointment.fecha + 'T00:00:00');
+        const today = new Date(currentDate.toDateString());
+        
+        const isToday = appointmentDate.toDateString() === today.toDateString();
+        const isPast = appointmentDateTime < currentDate;
+        const isFuture = appointmentDateTime > currentDate;
+        
+        let statusDisplay = '';
+        let statusColor = '';
+        
+        if (isToday && !isPast) {
+            statusDisplay = 'Hoy - ' + appointment.horario;
+            statusColor = 'bg-orange-100 text-orange-800';
+        } else if (isFuture) {
+            if (appointment.estado === 'confirmada') {
+                statusDisplay = 'Confirmada';
+                statusColor = 'bg-green-100 text-green-800';
+            } else {
+                statusDisplay = 'Pendiente';
+                statusColor = 'bg-yellow-100 text-yellow-800';
+            }
+        } else {
+            statusDisplay = 'Completada';
+            statusColor = 'bg-gray-100 text-gray-800';
+        }
+        
+        return { display: statusDisplay, color: statusColor };
+    }
+    
+    // Render appointments table (for 'all' view)
+    function renderAppointmentsTable() {
+        const tbody = document.getElementById('appointments-tbody');
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const pageAppointments = allAppointments.slice(startIndex, endIndex);
+        
+        if (allAppointments.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="px-6 py-12 text-center">
+                        <div class="text-gray-500">
+                            <ion-icon name="calendar-outline" class="text-6xl text-gray-300 mb-4"></ion-icon>
+                            <p class="text-lg">No hay citas de dermatología registradas</p>
+                            <p class="text-sm">Las citas aparecerán aquí cuando los pacientes las reserven</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            document.getElementById('pagination-info').classList.add('hidden');
+            return;
+        }
+        
+        tbody.innerHTML = pageAppointments.map(cita => {
+            const status = getAppointmentStatus(cita);
+            const observaciones = (cita.notas || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const observacionesCortas = observaciones.length > 50 ? 
+                observaciones.substring(0, 50) + '...' : observaciones;
+            
+            const fecha = new Date(cita.fecha + 'T00:00:00');
+            const fechaFormateada = fecha.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            return `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">
+                            ${cita.paciente_nombre} ${cita.paciente_apellido}
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            Tel: ${cita.paciente_telefono}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${fechaFormateada}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${cita.horario}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${status.color}">
+                            ${status.display}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm text-gray-600 max-w-xs" title="${observaciones}">
+                            ${observacionesCortas || 'Sin observaciones'}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="openObservationsModal(${cita.id_cita})" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition duration-200 flex items-center">
+                            <ion-icon name="create" class="mr-1"></ion-icon>
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+        
+        // Update pagination info
+        document.getElementById('pagination-info').classList.remove('hidden');
+        document.getElementById('showing-start').textContent = allAppointments.length > 0 ? startIndex + 1 : 0;
+        document.getElementById('showing-end').textContent = Math.min(endIndex, allAppointments.length);
+        document.getElementById('total-appointments').textContent = allAppointments.length;
+        
+        renderPagination();
+    }
+    
+    // Render appointments table - LEGACY, redirects to new logic
+    function renderAppointments() {
+        if (viewMode === 'week') {
+            renderWeekView();
+        } else {
+            renderAppointmentsTable();
+        }
+    }
+    
+    // Render pagination controls
+    function renderPagination() {
+        const totalPages = Math.ceil(allAppointments.length / itemsPerPage);
+        const paginationControls = document.getElementById('pagination-controls');
+        
+        if (totalPages <= 1) {
+            paginationControls.innerHTML = '';
+            return;
+        }
+        
+        let buttons = [];
+        
+        // Previous button
+        buttons.push(`
+            <button onclick="changePage(${currentPage - 1})" 
+                    ${currentPage === 1 ? 'disabled' : ''}
+                    class="px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100 border'} text-sm">
+                Anterior
+            </button>
+        `);
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                buttons.push(`
+                    <button onclick="changePage(${i})" 
+                            class="px-3 py-1 rounded text-sm ${i === currentPage ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100 border'}">
+                        ${i}
+                    </button>
+                `);
+            } else if (i === currentPage - 2 || i === currentPage + 2) {
+                buttons.push('<span class="px-2 text-gray-500">...</span>');
+            }
+        }
+        
+        // Next button
+        buttons.push(`
+            <button onclick="changePage(${currentPage + 1})" 
+                    ${currentPage === totalPages ? 'disabled' : ''}
+                    class="px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100 border'} text-sm">
+                Siguiente
+            </button>
+        `);
+        
+        paginationControls.innerHTML = buttons.join('');
+    }
+    
+    // Change page
+    function changePage(page) {
+        const totalPages = Math.ceil(allAppointments.length / itemsPerPage);
+        if (page < 1 || page > totalPages) return;
+        
+        currentPage = page;
+        renderAppointments();
+        
+        // Scroll to table
+        document.getElementById('appointments-table').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    // Initialize table on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeWeek();
+        renderView();
+    });
 
     // Abrir modal de observaciones
     async function openObservationsModal(appointmentId) {
@@ -535,25 +924,14 @@ try {
 
     // Actualizar la fila de la cita en la tabla
     function updateAppointmentInTable(appointmentId, observations) {
-        const rows = document.querySelectorAll('tbody tr');
+        // Update in allAppointments array
+        const appointment = allAppointments.find(a => a.id_cita == appointmentId);
+        if (appointment) {
+            appointment.notas = observations;
+        }
         
-        rows.forEach(row => {
-            const firstCell = row.querySelector('td');
-            if (firstCell && firstCell.textContent.includes(appointmentId.toString())) {
-                // Encontrar la celda de observaciones (columna 6, índice 5)
-                const observationsCell = row.children[5];
-                if (observationsCell) {
-                    const observacionesCortas = observations.length > 50 ? 
-                        observations.substring(0, 50) + '...' : observations;
-                    
-                    observationsCell.innerHTML = `
-                        <div class="text-sm text-gray-600 max-w-xs" title="${observations.replace(/"/g, '&quot;')}">
-                            ${observacionesCortas || 'Sin observaciones'}
-                        </div>
-                    `;
-                }
-            }
-        });
+        // Re-render current view
+        renderView();
     }
 
     // Cerrar modal al hacer click fuera de él

@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['especialidades'] = $especialidades;
                     
                     // Redirigir según la especialidad del doctor
-                    if (count($especialidades) == 1) {
-                        // Doctor con una sola especialidad - ir directo a su dashboard específico
+                    if (count($especialidades) >= 1) {
+                        // Ir directo al dashboard de la primera especialidad
                         $especialidad = $especialidades[0];
                         $codigo_especialidad = '';
                         
@@ -74,15 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($codigo_especialidad) {
                             header("Location: ../../Doctor/especialidades/{$codigo_especialidad}/dashboard_{$codigo_especialidad}.php");
                         } else {
-                            header('Location: ../../Doctor/dashboarddoc.php');
+                            // Fallback si no se reconoce la especialidad
+                            throw new Exception("Especialidad no reconocida");
                         }
-                    } elseif (count($especialidades) > 1) {
-                        // Doctor con múltiples especialidades - ir al dashboard general
-                        header('Location: ../../Doctor/dashboarddoc.php');
                     } else {
-                        // Doctor sin especialidades asignadas - ir al dashboard general
+                        // Doctor sin especialidades asignadas
                         error_log("Doctor ID {$user['user_id']} no tiene especialidades asignadas");
-                        header('Location: ../../Doctor/dashboarddoc.php');
+                        throw new Exception("No tienes especialidades asignadas. Contacta al administrador.");
                     }
                     break;
                 case 3: // Paciente

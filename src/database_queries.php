@@ -362,11 +362,14 @@ class PropielEquipoQueries {
     
     // Get appointments by user ID
     public function getAppointmentsByUserId($user_id) {
-        $query = "SELECT c.*, u.user_id, u.nombre, u.apellido, u.telefono 
+        $query = "SELECT c.*, 
+                         u.user_id, u.nombre, u.apellido, u.telefono,
+                         d.nombre as doctor_nombre, d.apellido as doctor_apellido
                   FROM citas c 
                   JOIN usuarios u ON c.id_usuario = u.user_id 
+                  LEFT JOIN usuarios d ON c.id_doctor = d.user_id
                   WHERE u.user_id = :user_id 
-                  ORDER BY c.fecha ASC, c.horario ASC";
+                  ORDER BY c.fecha_creacion DESC, c.id_cita DESC";
         
         try {
             $stmt = $this->db->prepare($query);
@@ -381,8 +384,11 @@ class PropielEquipoQueries {
     }
     
     // Check if time slot is available for a specific specialty
-    public function isTimeSlotAvailable($fecha, $horario, $servicio = null) {
-        if ($servicio) {
+    public function isTimeSlotAvailable($fecha, $horario, $servicio = null, $id_doctor = null) {
+        if ($id_doctor) {
+            // Check availability for specific doctor (most specific check)
+            $query = "SELECT COUNT(*) as count FROM citas WHERE fecha = :fecha AND horario = :horario AND id_doctor = :id_doctor";
+        } elseif ($servicio) {
             // Check availability for specific specialty
             $query = "SELECT COUNT(*) as count FROM citas WHERE fecha = :fecha AND horario = :horario AND servicio = :servicio";
         } else {
@@ -394,7 +400,9 @@ class PropielEquipoQueries {
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':fecha', $fecha);
             $stmt->bindParam(':horario', $horario);
-            if ($servicio) {
+            if ($id_doctor) {
+                $stmt->bindParam(':id_doctor', $id_doctor, PDO::PARAM_INT);
+            } elseif ($servicio) {
                 $stmt->bindParam(':servicio', $servicio);
             }
             $stmt->execute();
@@ -410,6 +418,67 @@ class PropielEquipoQueries {
     /**
      * UTILITY QUERIES
      */
+    
+    // Get count of pending payment verifications for a doctor
+    public function getPendingPaymentsCount($id_doctor, $servicio = null) {
+        $query = "SELECT COUNT(*) as count 
+                  FROM citas 
+                  WHERE id_doctor = :id_doctor 
+                  AND estado = 'pendiente' 
+                  AND comprobante_pago IS NOT NULL 
+                  AND verificado_por IS NULL";
+        
+        if ($servicio) {
+            $query .= " AND LOWER(servicio) = LOWER(:servicio)";
+        }
+        
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id_doctor', $id_doctor);
+            
+            if ($servicio) {
+                $stmt->bindParam(':servicio', $servicio);
+            }
+            
+            $stmt->execute();
+            $result = $stmt->fetch();
+            
+            return $result['count'] ?? 0;
+        } catch(PDOException $e) {
+            error_log("Get Pending Payments Count Error: " . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    // Get count of new/unconfirmed appointments for a doctor
+    public function getNewAppointmentsCount($id_doctor, $servicio = null) {
+        $query = "SELECT COUNT(*) as count 
+                  FROM citas 
+                  WHERE id_doctor = :id_doctor 
+                  AND estado IN ('pendiente_pago', 'pendiente')
+                  AND fecha >= CURDATE()";
+        
+        if ($servicio) {
+            $query .= " AND LOWER(servicio) = LOWER(:servicio)";
+        }
+        
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':id_doctor', $id_doctor);
+            
+            if ($servicio) {
+                $stmt->bindParam(':servicio', $servicio);
+            }
+            
+            $stmt->execute();
+            $result = $stmt->fetch();
+            
+            return $result['count'] ?? 0;
+        } catch(PDOException $e) {
+            error_log("Get New Appointments Count Error: " . $e->getMessage());
+            return 0;
+        }
+    }
     
     // Get all genders
     public function getGenders() {

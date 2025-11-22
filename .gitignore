@@ -14,10 +14,16 @@ src/Images/ImgMedicas/*.png
 src/Images/ImgMedicas/*.webp
 src/Images/ImgMedicas/*.gif
 src/consentimientos/*.pdf
+src/comprobantes_pago/*.jpg
+src/comprobantes_pago/*.jpeg
+src/comprobantes_pago/*.png
+src/comprobantes_pago/*.pdf
 
 # BUT allow test files (small, fake data)
 !src/Images/ImgMedicas/test_*.jpg
 !src/consentimientos/test_*.pdf
+!src/comprobantes_pago/test_*.jpg
+!src/comprobantes_pago/test_*.png
 
 # Test data directory (these ARE committed)
 !tests/sample_data/**
@@ -25,6 +31,7 @@ src/consentimientos/*.pdf
 # Keep directory structure but ignore contents
 !src/Images/ImgMedicas/.gitkeep
 !src/consentimientos/.gitkeep
+!src/comprobantes_pago/.gitkeep
 
 # Logs
 src/logs/*.log

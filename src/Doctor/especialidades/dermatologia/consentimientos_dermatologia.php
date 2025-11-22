@@ -70,7 +70,8 @@ try {
                 'paciente_nombre' => 'Desconocido',
                 'paciente_apellido' => '',
                 'nombre_completo' => 'Desconocido',
-                'user_id' => null
+                'user_id' => null,
+                'telefono' => null
             ];
             
             // Intentar extraer el user_id primero
@@ -84,6 +85,7 @@ try {
                         $info['paciente_nombre'] = $paciente['nombre'];
                         $info['paciente_apellido'] = $paciente['apellido'];
                         $info['nombre_completo'] = $paciente['nombre'] . ' ' . $paciente['apellido'];
+                        $info['telefono'] = $paciente['telefono'];
                     }
                 } catch (Exception $e) {
                     error_log("Error obteniendo datos del paciente: " . $e->getMessage());
@@ -325,9 +327,9 @@ function formatBytes($bytes, $precision = 2) {
                                             <div class="text-sm font-medium text-gray-900">
                                                 <?php echo htmlspecialchars($consent['nombre_completo']); ?>
                                             </div>
-                                            <?php if ($consent['user_id']): ?>
+                                            <?php if ($consent['telefono']): ?>
                                             <div class="text-sm text-gray-500">
-                                                ID: <?php echo htmlspecialchars($consent['user_id']); ?>
+                                                Tel: <?php echo htmlspecialchars($consent['telefono']); ?>
                                             </div>
                                             <?php endif; ?>
                                         </div>

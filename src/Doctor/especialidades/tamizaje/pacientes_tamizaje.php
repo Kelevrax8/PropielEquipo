@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Pacientes específicos para Tamizaje
 session_start();
 
@@ -48,7 +48,6 @@ try {
         $pacientes_unicos = [];
         
         foreach ($todas_citas as $cita) {
-            // Comparar con 'tamiz' (como está en la base de datos)
             if (strtolower($cita['servicio']) === 'tamiz') {
                 $user_id = $cita['id_usuario']; // Campo correcto según el SQL
                 if (!isset($pacientes_unicos[$user_id])) {
@@ -111,10 +110,10 @@ try {
                 <div>
                     <h1 class="text-3xl font-bold mb-2">Pacientes de Tamizaje</h1>
                     <p class="text-purple-100">Dr. <?php echo htmlspecialchars($nombre . " " . $apellido); ?></p>
-                    <p class="text-purple-200 text-sm">Gestión de pacientes de detección temprana</p>
+                    <p class="text-purple-200 text-sm">Gestión de pacientes de tamizaje</p>
                 </div>
                 <div class="hidden md:block">
-                    <ion-icon name="search" class="text-6xl opacity-30"></ion-icon>
+                    <ion-icon name="people" class="text-6xl opacity-30"></ion-icon>
                 </div>
             </div>
         </div>
@@ -153,7 +152,7 @@ try {
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm">Promedio Citas</p>
-                        <p class="text-2xl font-bold text-orange-600">
+                        <p class="text-2xl font-bold text-purple-600">
                             <?php 
                             if (count($pacientes_tamizaje) > 0) {
                                 $total_citas = array_sum(array_column($pacientes_tamizaje, 'total_citas'));
@@ -164,7 +163,7 @@ try {
                             ?>
                         </p>
                     </div>
-                    <ion-icon name="stats" class="text-3xl text-orange-500"></ion-icon>
+                    <ion-icon name="stats" class="text-3xl text-purple-500"></ion-icon>
                 </div>
             </div>
         </div>
@@ -221,7 +220,7 @@ try {
                                         <?php echo htmlspecialchars($paciente['telefono']); ?>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="bg-purple-100 text-purple-800 px-2 py-1 text-xs font-semibold rounded-full">
+                                        <span class="bg-purple-100 text-blue-800 px-2 py-1 text-xs font-semibold rounded-full">
                                             <?php echo $paciente['total_citas']; ?> citas
                                         </span>
                                     </td>
@@ -238,7 +237,7 @@ try {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button onclick="generarHistorialPDF(<?php echo $paciente['user_id']; ?>, '<?php echo htmlspecialchars($paciente['nombre'] . ' ' . $paciente['apellido'], ENT_QUOTES); ?>')" 
-                                                class="text-purple-600 hover:text-purple-900 mr-3 cursor-pointer">
+                                                class="text-purple-600 hover:text-blue-900 mr-3 cursor-pointer">
                                             Ver historial
                                         </button>
                                         <a href="#" class="text-green-600 hover:text-green-900">Nueva cita</a>
@@ -249,7 +248,7 @@ try {
                             <tr>
                                 <td colspan="7" class="px-6 py-12 text-center">
                                     <div class="text-gray-500">
-                                        <ion-icon name="search" class="text-6xl text-gray-300 mb-4"></ion-icon>
+                                        <ion-icon name="people-outline" class="text-6xl text-gray-300 mb-4"></ion-icon>
                                         <p class="text-lg">No hay pacientes de tamizaje registrados</p>
                                         <p class="text-sm">Los pacientes aparecerán aquí cuando reserven citas de tamizaje</p>
                                     </div>
@@ -276,7 +275,7 @@ try {
             </a>
             
             <a href="imagenes_tamizaje.php" 
-               class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center">
+               class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center">
                 <ion-icon name="images" class="mr-2"></ion-icon>
                 Imágenes Médicas
             </a>
@@ -301,7 +300,7 @@ try {
 
             console.log('Obteniendo datos del paciente:', userId);
 
-            // Usar el endpoint específico para tamizaje
+            // Usar el endpoint correcto para obtener datos reales
             const response = await fetch(`../../../php_action/get_patient_history_tamizaje.php?patient_id=${userId}`);
             
             if (!response.ok) {
@@ -325,7 +324,7 @@ try {
             }
 
             // Generar PDF con los datos reales de la base de datos
-            await generatePatientHistoryPDF(data.patient, data.appointments, 'Tamizaje');
+            await generatePatientHistoryPDF(data.patient, data.appointments);
 
         } catch (error) {
             console.error('Error completo:', error);
@@ -339,7 +338,7 @@ try {
         }
     }
 
-    async function generatePatientHistoryPDF(patient, appointments, specialty = 'Tamizaje') {
+    async function generatePatientHistoryPDF(patient, appointments) {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         
@@ -385,14 +384,14 @@ try {
 
         pdf.setFontSize(16);
         pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(147, 51, 234); // Color purple
-        pdf.text(`Especialidad: ${specialty}`, pageWidth / 2, yPosition, { align: 'center' });
+        pdf.setTextColor(70, 130, 180);
+        pdf.text('Especialidad: Tamizaje', pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 8;
         
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'italic');
         pdf.setTextColor(100, 100, 100);
-        pdf.text(`Este historial contiene únicamente citas de ${specialty.toLowerCase()}`, pageWidth / 2, yPosition, { align: 'center' });
+        pdf.text('Este historial contiene únicamente citas de tamizaje', pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 20;
 
         // Información del paciente (usando datos reales de la BD)
@@ -403,7 +402,7 @@ try {
         yPosition += 10;
 
         pdf.setLineWidth(0.5);
-        pdf.setDrawColor(147, 51, 234); // Color purple
+        pdf.setDrawColor(70, 130, 180);
         pdf.line(margin, yPosition, pageWidth - margin, yPosition);
         yPosition += 10;
 
@@ -426,7 +425,7 @@ try {
             yPosition += 8;
         });
 
-        // Fecha de generación
+        // Fecha de generación (más a la derecha para evitar sobrelapamiento)
         yPosition += 5;
         pdf.setFont('helvetica', 'bold');
         pdf.text('Fecha de generación:', margin, yPosition);
@@ -450,9 +449,9 @@ try {
 
         if (totalCitas > 0) {
             // Ordenar citas por fecha para obtener primera y última
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            primeraVisita = new Date(citasOrdenadas[0].fecha).toLocaleDateString('es-ES');
-            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha).toLocaleDateString('es-ES');
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha + 'T00:00:00') - new Date(b.fecha + 'T00:00:00'));
+            primeraVisita = new Date(citasOrdenadas[0].fecha + 'T00:00:00').toLocaleDateString('es-ES');
+            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha + 'T00:00:00').toLocaleDateString('es-ES');
         }
 
         const stats = [
@@ -476,14 +475,14 @@ try {
         if (totalCitas > 0) {
             pdf.setFontSize(16);
             pdf.setFont('helvetica', 'bold');
-            pdf.text(`HISTORIAL DE CITAS DE ${specialty.toUpperCase()}`, margin, yPosition);
+            pdf.text('HISTORIAL DE CITAS DERMATOLÓGICAS', margin, yPosition);
             yPosition += 10;
 
             pdf.line(margin, yPosition, pageWidth - margin, yPosition);
             yPosition += 15;
 
             // Ordenar citas por fecha descendente (más reciente primero)
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha + 'T00:00:00') - new Date(a.fecha + 'T00:00:00'));
 
             citasOrdenadas.forEach((appointment, index) => {
                 // Verificar espacio para nueva página
@@ -495,8 +494,8 @@ try {
                 // Encabezado de la cita
                 pdf.setFontSize(14);
                 pdf.setFont('helvetica', 'bold');
-                pdf.setTextColor(147, 51, 234); // Color purple
-                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha).toLocaleDateString('es-ES')}`, margin, yPosition);
+                pdf.setTextColor(70, 130, 180);
+                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')}`, margin, yPosition);
                 yPosition += 8;
 
                 // Detalles de la cita de la base de datos
@@ -504,10 +503,10 @@ try {
                 pdf.setTextColor(51, 51, 51);
 
                 const citaDetails = [
-                    ['Fecha:', new Date(appointment.fecha).toLocaleDateString('es-ES')],
+                    ['Fecha:', new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')],
                     ['Hora:', appointment.horario || 'No especificada'],
-                    ['Servicio:', appointment.servicio || specialty],
-                    ['Especialidad:', appointment.especialidad || specialty],
+                    ['Servicio:', appointment.servicio || 'Tamizaje'],
+                    ['Especialidad:', appointment.especialidad || 'Tamizaje'],
                     ['Doctor:', appointment.doctor_nombre || 'No especificado']
                 ];
 
@@ -552,14 +551,14 @@ try {
             pdf.setFontSize(14);
             pdf.setFont('helvetica', 'italic');
             pdf.setTextColor(128, 128, 128);
-            pdf.text(`Este paciente no tiene citas de ${specialty.toLowerCase()} registradas.`, margin, yPosition);
+            pdf.text('Este paciente no tiene citas de tamizaje registradas.', margin, yPosition);
             yPosition += 10;
             
             pdf.setFontSize(11);
             pdf.setFont('helvetica', 'normal');
             pdf.text('• Puede que tenga citas en otras especialidades', margin, yPosition);
             yPosition += 6;
-            pdf.text(`• Solo se muestran citas específicas de ${specialty.toLowerCase()} en este historial`, margin, yPosition);
+            pdf.text('• Solo se muestran citas específicas de tamizaje en este historial', margin, yPosition);
         }
 
         // Pie de página en todas las páginas
@@ -590,7 +589,7 @@ try {
         if (!newWindow) {
             alert('Por favor, permita las ventanas emergentes para ver el PDF');
             // Ofrecer descarga como alternativa
-            const nombreArchivo = `historial_${specialty.toLowerCase()}_${patient.nombre}_${patient.apellido}_${new Date().toISOString().slice(0, 10)}.pdf`;
+            const nombreArchivo = `historial_${patient.nombre}_${patient.apellido}_${new Date().toISOString().slice(0, 10)}.pdf`;
             pdf.save(nombreArchivo);
         }
 
@@ -599,7 +598,7 @@ try {
             URL.revokeObjectURL(pdfUrl);
         }, 30000);
 
-        console.log(`Historial PDF de ${specialty} generado exitosamente para:`, patient.nombre, patient.apellido);
+        console.log('Historial PDF generado exitosamente para:', patient.nombre, patient.apellido);
     }
 </script>
 

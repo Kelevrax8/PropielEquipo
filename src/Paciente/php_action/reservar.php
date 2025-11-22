@@ -120,11 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
         
-        // Verificar disponibilidad del horario una vez más (doble verificación)
-        if (!$db_queries->isTimeSlotAvailable($fecha, $hora, $servicio)) {
+        // Verificar disponibilidad del horario una vez más (doble verificación) - ahora por doctor específico
+        if (!$db_queries->isTimeSlotAvailable($fecha, $hora, $servicio, $id_doctor)) {
             // Horario no disponible - mostrar mensaje específico
             echo "<script>
-                alert('⚠️ El horario seleccionado ya ha sido reservado por otro paciente para la especialidad de $servicio.\\n\\nPor favor regresa y selecciona otro horario disponible.');
+                alert('⚠️ El horario seleccionado ya ha sido reservado con este médico.\\n\\nPor favor regresa y selecciona otro horario disponible.');
                 window.location.replace('../reservar.php');
             </script>";
             exit();
@@ -167,10 +167,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             
-            $mensaje = "✅ ¡Cita reservada exitosamente!\\n\\nFecha: $fecha\\nHora: $hora\\nServicio: $servicio";
+            // Redirect to payment upload page
+            $_SESSION['cita_creada_id'] = $cita_id;
+            $_SESSION['cita_creada_fecha'] = $fecha;
+            $_SESSION['cita_creada_hora'] = $hora;
+            $_SESSION['cita_creada_servicio'] = $servicio;
+            
             echo "<script>
-                alert('$mensaje');
-                window.location.replace('../reservas.php');
+                window.location.replace('../subir_comprobante.php?cita=$cita_id');
             </script>";
             exit();
         } else {

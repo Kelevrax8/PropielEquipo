@@ -195,10 +195,23 @@ if (isset($_SESSION['telefono'])) {
                                 <li>• <strong>Protección mutua:</strong> Protege tanto al paciente como al médico</li>
                             </ul>
                         </div>
-                        <p class="text-sm text-amber-600">
+                        <p class="text-sm text-amber-600 mb-4">
                             <ion-icon name="information-circle" class="mr-1"></ion-icon>
                             Una vez firmado, podrás reservar todas las citas que necesites sin volver a firmar.
                         </p>
+                        
+                        <!-- Botón de Acción Destacado -->
+                        <div class="flex justify-center pt-4">
+                            <a href="consentimiento.php" 
+                               class="inline-flex items-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-xl transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                                <ion-icon name="document-text" class="mr-3 text-2xl"></ion-icon>
+                                <div class="text-left">
+                                    <div class="text-lg">Firmar Consentimiento Informado</div>
+                                    <div class="text-xs text-green-100 font-normal">Haz clic aquí para continuar</div>
+                                </div>
+                                <ion-icon name="arrow-forward" class="ml-3 text-xl"></ion-icon>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,7 +255,7 @@ if (isset($_SESSION['telefono'])) {
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200">
                             <option value="">Cargando médicos...</option>
                         </select>
-                        <p class="text-sm text-gray-500 mt-1">Puedes elegir cualquier médico disponible o dejar que el sistema asigne automáticamente</p>
+                        <p class="text-sm text-gray-500 mt-1">Selecciona el médico de tu preferencia para tu cita</p>
                     </div>
                     
                     <!-- Seleccionar Día -->
@@ -297,42 +310,37 @@ if (isset($_SESSION['telefono'])) {
                                 <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
                                 Confirmar Reserva
                             </button>
+                            
+                            <a href="dashboardpaciente.php" 
+                               class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center">
+                                <ion-icon name="arrow-back" class="mr-2"></ion-icon>
+                                Cancelar
+                            </a>
                         <?php else: ?>
-                            <div class="flex-1 text-center">
-                                <a href="consentimiento.php" 
-                                   class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 mb-3"
-                                   style="pointer-events: auto !important;">
-                                    <ion-icon name="document-text" class="mr-2"></ion-icon>
-                                    Firmar Consentimiento Informado
-                                </a>
-                                <p class="text-sm text-gray-500">
-                                    Después de firmar, regresa aquí para continuar
-                                </p>
-                            </div>
+                            <a href="dashboardpaciente.php" 
+                               class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center"
+                               style="pointer-events: auto !important;">
+                                <ion-icon name="arrow-back" class="mr-2"></ion-icon>
+                                Volver
+                            </a>
                         <?php endif; ?>
-                        
-                        <a href="dashboardpaciente.php" 
-                           class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center">
-                            <ion-icon name="arrow-back" class="mr-2"></ion-icon>
-                            Cancelar
-                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Consentimiento Informado -->
+    <!-- Modal de Información de Pago -->
     <div id="consent-modal" class="fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
             <!-- Header del Modal -->
             <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img class="h-12 w-12 rounded-full bg-white p-2" src="../Images/logopropieel.png" alt="PRO-PIEL">
-                        <div class="ml-4">
-                            <h2 class="text-2xl font-bold">PRO-PIEL</h2>
-                            <p class="text-emerald-100 text-sm">CONSENTIMIENTO INFORMADO</p>
+                        <ion-icon name="card" class="text-5xl mr-4"></ion-icon>
+                        <div>
+                            <h2 class="text-2xl font-bold">Información de Pago</h2>
+                            <p class="text-emerald-100 text-sm">Datos bancarios para tu cita médica</p>
                         </div>
                     </div>
                     <button onclick="closeConsentModal()" class="text-white hover:text-gray-200 text-2xl">
@@ -345,41 +353,122 @@ if (isset($_SESSION['telefono'])) {
             <div class="flex flex-col h-full max-h-[calc(90vh-120px)]">
                 <!-- Área de scroll para el contenido -->
                 <div class="flex-1 overflow-y-auto p-6">
+                    <?php
+                    // Obtener información bancaria de la configuración
+                    $banco_info = null;
+                    try {
+                        $stmt = $conex->query("SELECT * FROM configuracion_pagos WHERE activo = 1 LIMIT 1");
+                        if ($stmt->num_rows > 0) {
+                            $banco_info = $stmt->fetch_assoc();
+                        }
+                    } catch (Exception $e) {
+                        error_log("Error al obtener configuración de pagos: " . $e->getMessage());
+                    }
+                    ?>
+                    
                     <div class="text-center mb-6">
-                        <h3 id="consent-title" class="text-xl font-bold text-gray-800">DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Datos Bancarios para tu Pago</h3>
+                        <p class="text-gray-600">Realiza tu pago y guarda el comprobante para subirlo después</p>
                     </div>
 
-                    <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
-                        <p>
-                            Yo <strong id="patient-name-consent"><?php echo htmlspecialchars($nombre . ' ' . $apellido); ?></strong> autorizo al 
-                            <strong id="doctor-name">Dr. Juan López</strong> especialista en <strong id="specialty-name">Medicina General</strong> con cédula <strong id="doctor-license">MED12345678</strong>, 
-                            como mi médico tratante. Con mi número de teléfono <strong id="patient-phone-consent"><?php echo htmlspecialchars($telefono); ?></strong> 
-                            y a la edad de <strong id="patient-age-consent"><?php echo htmlspecialchars($edad); ?> años</strong>, 
-                            de sexo <strong id="patient-gender-consent"><?php echo htmlspecialchars($genero); ?></strong>; 
-                            acudo a consulta externa de primera vez. Lo cual manifiesto consciente, sin presión y por voluntad propia.
-                        </p>
-
-                        <p>
-                            Para lo cual <em>me interrogará sobre mi enfermedad y comorbilidades, me explorará el área afectada incluyendo el área genital si fuera necesario, lo cual lo hará siempre con la presencia de la enfermera. Asimismo, me solicitará estudios de laboratorio y hasta una biopsia de piel según mi enfermedad. Me prescribirá una receta médica en la que se indicarán los nombres de los medicamentos, forma de uso y tiempo que debo tomarlos; asimismo, si fuera necesario, mandará una cita subsecuente para valorar la evolución de mi enfermedad.</em>
-                        </p>
-
-                        <p>
-                            Todo lo anterior apegado a la ética, profesionalismo y responsabilidad y con base en el principio de libertad prescriptiva, de acuerdo a lo establecido en las <strong>Normas Oficiales Mexicanas aplicables (NOM-001 y NOM-234)</strong>.
-                        </p>
-                    </div>
-
-                    <!-- Información de confirmación -->
-                    <div class="mt-8 border-t pt-6">
-                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-                            <div class="flex items-center justify-center mb-3">
-                                <ion-icon name="checkmark-circle" class="text-2xl text-emerald-600 mr-3"></ion-icon>
-                                <h4 class="text-lg font-semibold text-emerald-800">Consentimiento Informado Previamente Firmado</h4>
+                    <!-- Información Bancaria -->
+                    <?php if ($banco_info): ?>
+                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 border-2 border-emerald-300 rounded-xl p-6 mb-6 shadow-lg">
+                        <div class="space-y-4">
+                            <!-- Banco -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-32">
+                                    <span class="text-sm font-semibold text-emerald-800">🏦 Banco:</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-800 font-bold text-lg"><?php echo htmlspecialchars($banco_info['banco']); ?></p>
+                                </div>
                             </div>
-                            <p class="text-sm text-emerald-700 text-center">
-                                Ya has firmado el consentimiento informado requerido. 
-                                Puedes proceder directamente con la confirmación de tu cita médica.
-                            </p>
+                            
+                            <!-- Titular -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-32">
+                                    <span class="text-sm font-semibold text-emerald-800">👤 Titular:</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-800 font-bold text-lg"><?php echo htmlspecialchars($banco_info['titular']); ?></p>
+                                </div>
+                            </div>
+                            
+                            <!-- CLABE -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-32">
+                                    <span class="text-sm font-semibold text-emerald-800">🔢 CLABE:</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-800 font-bold text-xl tracking-wider bg-white px-4 py-2 rounded-lg border border-emerald-200"><?php echo htmlspecialchars($banco_info['clabe']); ?></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Número de Cuenta -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-32">
+                                    <span class="text-sm font-semibold text-emerald-800">💳 Cuenta:</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-800 font-bold text-lg bg-white px-4 py-2 rounded-lg border border-emerald-200"><?php echo htmlspecialchars($banco_info['numero_cuenta']); ?></p>
+                                </div>
+                            </div>
+                            
+                            <?php if (!empty($banco_info['referencia_info'])): ?>
+                            <!-- Referencia -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-32">
+                                    <span class="text-sm font-semibold text-emerald-800">📝 Referencia:</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-gray-700 bg-white px-4 py-2 rounded-lg border border-emerald-200"><?php echo htmlspecialchars($banco_info['referencia_info']); ?></p>
+                                </div>
+                            </div>
+                            <?php endif; ?>
                         </div>
+                    </div>
+                    <?php else: ?>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                        <p class="text-yellow-800 text-center">
+                            <ion-icon name="warning" class="mr-2"></ion-icon>
+                            No hay información bancaria configurada. Por favor contacta con la clínica.
+                        </p>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Instrucciones de Pago -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6">
+                        <h4 class="font-bold text-blue-900 mb-3 flex items-center">
+                            <ion-icon name="information-circle" class="mr-2 text-xl"></ion-icon>
+                            Instrucciones de Pago
+                        </h4>
+                        <ol class="space-y-2 text-sm text-blue-800">
+                            <li class="flex items-start">
+                                <span class="font-bold mr-2 flex-shrink-0">1.</span>
+                                <span>Realiza la transferencia o depósito a la cuenta indicada arriba</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="font-bold mr-2 flex-shrink-0">2.</span>
+                                <span>Guarda el comprobante de pago (captura de pantalla o PDF)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="font-bold mr-2 flex-shrink-0">3.</span>
+                                <span>Al confirmar tu cita, serás redirigido a subir tu comprobante</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="font-bold mr-2 flex-shrink-0">4.</span>
+                                <span>El médico verificará tu pago antes de tu cita</span>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Nota importante -->
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                        <p class="text-sm text-amber-800">
+                            <ion-icon name="alert-circle" class="mr-2"></ion-icon>
+                            <strong>Importante:</strong> Tu cita quedará <strong>pendiente de pago</strong> hasta que subas el comprobante y sea verificado por el médico.
+                        </p>
                     </div>
                 </div>
 
@@ -388,14 +477,16 @@ if (isset($_SESSION['telefono'])) {
                     <div class="flex flex-col sm:flex-row gap-3 justify-end">
                         <button type="button" 
                                 onclick="closeConsentModal()" 
-                                class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition duration-200">
-                            Cancelar
+                                class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition duration-200 flex items-center justify-center">
+                            <ion-icon name="arrow-back" class="mr-2"></ion-icon>
+                            Volver a Editar
                         </button>
                         
                         <button type="button" 
                                 onclick="confirmReservation()" 
-                                class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition duration-200">
-                            Confirmar Cita
+                                class="px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold rounded-lg transition duration-200 shadow-lg flex items-center justify-center">
+                            <ion-icon name="checkmark-circle" class="mr-2 text-xl"></ion-icon>
+                            Confirmar y Continuar al Pago
                         </button>
                     </div>
                 </div>
@@ -451,12 +542,14 @@ if (isset($_SESSION['telefono'])) {
             }
         }
 
-        // Función para cargar horarios disponibles para una fecha específica
+        // Función para cargar horarios disponibles para una fecha específica (DATABASE-DRIVEN)
         async function loadAvailableTimeSlots(fecha) {
             const timeSelect = document.getElementById('time');
             const statusDiv = document.getElementById('availability-status');
             const serviceSelect = document.getElementById('service');
+            const doctorSelect = document.getElementById('doctor');
             const selectedService = serviceSelect.value;
+            const selectedDoctor = doctorSelect.value;
             
             // Verificar que se haya seleccionado un servicio
             if (!selectedService) {
@@ -468,16 +561,32 @@ if (isset($_SESSION['telefono'])) {
                 return;
             }
             
+            // Verificar que se haya seleccionado un médico
+            if (!selectedDoctor) {
+                timeSelect.innerHTML = '<option value="">Primero selecciona un médico</option>';
+                timeSelect.disabled = true;
+                statusDiv.className = 'mt-2 text-sm text-amber-600';
+                statusDiv.textContent = '⚠️ Selecciona un médico para ver horarios disponibles';
+                statusDiv.classList.remove('hidden');
+                return;
+            }
+            
             // Mostrar estado de carga
-            timeSelect.innerHTML = '<option value="">Verificando disponibilidad...</option>';
+            timeSelect.innerHTML = '<option value="">Cargando horarios...</option>';
             timeSelect.disabled = true;
             statusDiv.className = 'mt-2 text-sm text-blue-600';
-            statusDiv.textContent = `🔍 Verificando horarios disponibles para ${selectedService}...`;
+            statusDiv.textContent = `🔍 Cargando horarios configurados para el doctor...`;
             statusDiv.classList.remove('hidden');
             
-            console.log('Verificando disponibilidad para fecha:', fecha, 'y servicio:', selectedService);
+            console.log('Cargando horarios desde base de datos para fecha:', fecha, 'doctor:', selectedDoctor);
             
             try {
+                // Obtener horarios desde la base de datos
+                const response = await fetch(`php_action/get_available_hours.php?fecha=${encodeURIComponent(fecha)}&id_doctor=${encodeURIComponent(selectedDoctor)}&servicio=${encodeURIComponent(selectedService)}`);
+                const data = await response.json();
+                
+                console.log('Respuesta de horarios:', data);
+                
                 // Limpiar el select
                 timeSelect.innerHTML = '';
                 timeSelect.disabled = false;
@@ -488,73 +597,81 @@ if (isset($_SESSION['telefono'])) {
                 defaultOption.textContent = 'Selecciona una hora disponible';
                 timeSelect.appendChild(defaultOption);
                 
-                let availableCount = 0;
-                let occupiedCount = 0;
-                
-                // Verificar cada horario secuencialmente para la especialidad específica
-                for (let hour = 9; hour <= 17; hour++) {
-                    const horario = hour + ':00';
-                    
-                    try {
-                        const response = await fetch(`php_action/check_availability.php?fecha=${encodeURIComponent(fecha)}&horario=${encodeURIComponent(horario)}&servicio=${encodeURIComponent(selectedService)}`);
-                        const data = await response.json();
-                        
-                        console.log(`${horario} (${selectedService}):`, data);
-                        
-                        const option = document.createElement('option');
-                        option.value = horario;
-                        
-                        const timeRange = `${horario} - ${(hour + 1)}:00`;
-                        
-                        if (data.success && data.available) {
-                            option.textContent = `✅ ${timeRange} - Disponible`;
-                            option.className = 'text-green-700';
-                            availableCount++;
-                        } else {
-                            option.textContent = `❌ ${timeRange} - No disponible`;
-                            option.className = 'text-red-500';
-                            option.disabled = true;
-                            occupiedCount++;
-                        }
-                        
-                        timeSelect.appendChild(option);
-                        
-                    } catch (error) {
-                        console.error(`Error verificando ${horario}:`, error);
-                        
-                        const option = document.createElement('option');
-                        option.value = horario;
-                        option.textContent = `⚠️ ${horario} - ${(hour + 1)}:00 - Error`;
-                        option.className = 'text-yellow-600';
-                        option.disabled = true;
-                        timeSelect.appendChild(option);
-                        occupiedCount++;
-                    }
-                }
-                
-                // Mostrar resumen de disponibilidad
-                if (availableCount === 0) {
+                if (!data.success) {
+                    // Error del servidor
                     statusDiv.className = 'mt-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2';
                     statusDiv.innerHTML = `
                         <div class="flex items-center">
                             <ion-icon name="close-circle" class="mr-2"></ion-icon>
-                            <span><strong>Sin horarios disponibles</strong> para ${selectedService} el ${formatDate(fecha)}</span>
+                            <span><strong>Error:</strong> ${data.message}</span>
                         </div>
-                        <p class="text-xs mt-1">Todos los horarios de ${selectedService} están ocupados. Intenta con otra fecha.</p>
                     `;
-                } else {
-                    statusDiv.className = 'mt-2 text-sm text-green-600 bg-green-50 border border-green-200 rounded p-2';
-                    statusDiv.innerHTML = `
-                        <div class="flex items-center">
-                            <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
-                            <span><strong>${availableCount} horario${availableCount > 1 ? 's' : ''} disponible${availableCount > 1 ? 's' : ''}</strong> para ${selectedService} el ${formatDate(fecha)}</span>
-                        </div>
-                        ${occupiedCount > 0 ? `<p class="text-xs mt-1">${occupiedCount} horario${occupiedCount > 1 ? 's' : ''} ya reservado${occupiedCount > 1 ? 's' : ''} para esta especialidad.</p>` : ''}
-                    `;
+                    timeSelect.disabled = true;
+                    return;
                 }
                 
+                // Obtener nombre del doctor seleccionado
+                const doctorOption = doctorSelect.options[doctorSelect.selectedIndex];
+                const doctorName = doctorOption ? doctorOption.textContent.split(' - ')[0] : 'este doctor';
+                
+                if (!data.horarios || data.horarios.length === 0) {
+                    // Sin horarios disponibles
+                    statusDiv.className = 'mt-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2';
+                    statusDiv.innerHTML = `
+                        <div class="flex items-center">
+                            <ion-icon name="close-circle" class="mr-2"></ion-icon>
+                            <span><strong>Sin horarios disponibles</strong> para ${doctorName} el ${formatDate(fecha)}</span>
+                        </div>
+                        <p class="text-xs mt-1">${data.message || 'Todos los horarios están ocupados o el doctor no tiene horarios configurados.'}</p>
+                        <p class="text-xs mt-1">Intenta con otra fecha u otro médico.</p>
+                    `;
+                    timeSelect.disabled = true;
+                    return;
+                }
+                
+                // Agregar horarios disponibles al select
+                data.horarios.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.value = slot.horario;
+                    
+                    // Formatear la hora para mostrar
+                    const hora = parseInt(slot.horario.split(':')[0]);
+                    const timeRange = `${slot.horario} - ${(hora + 1)}:00`;
+                    
+                    option.textContent = `✅ ${timeRange} - Disponible`;
+                    option.className = 'text-green-700';
+                    timeSelect.appendChild(option);
+                });
+                
+                // Mostrar resumen de disponibilidad
+                const availableCount = data.horarios.length;
+                const occupiedCount = data.stats?.total_ocupados || 0;
+                const bloqueos = data.stats?.total_bloqueos || 0;
+                
+                statusDiv.className = 'mt-2 text-sm text-green-600 bg-green-50 border border-green-200 rounded p-2';
+                let statusHTML = `
+                    <div class="flex items-center">
+                        <ion-icon name="checkmark-circle" class="mr-2"></ion-icon>
+                        <span><strong>${availableCount} horario${availableCount > 1 ? 's' : ''} disponible${availableCount > 1 ? 's' : ''}</strong> para ${doctorName} el ${formatDate(fecha)}</span>
+                    </div>
+                `;
+                
+                if (data.config) {
+                    statusHTML += `<p class="text-xs mt-1">Horario de atención: ${data.config.hora_inicio.substring(0, 5)} - ${data.config.hora_fin.substring(0, 5)} (${data.config.intervalo_minutos} min por cita)</p>`;
+                }
+                
+                if (occupiedCount > 0) {
+                    statusHTML += `<p class="text-xs mt-1">${occupiedCount} horario${occupiedCount > 1 ? 's' : ''} ya reservado${occupiedCount > 1 ? 's' : ''}.</p>`;
+                }
+                
+                if (bloqueos > 0) {
+                    statusHTML += `<p class="text-xs mt-1 text-amber-600">⚠️ Algunos horarios bloqueados por el doctor.</p>`;
+                }
+                
+                statusDiv.innerHTML = statusHTML;
+                
             } catch (error) {
-                console.error('Error general al cargar horarios:', error);
+                console.error('Error al cargar horarios desde base de datos:', error);
                 
                 // Fallback: cargar horarios estáticos
                 timeSelect.innerHTML = '<option value="">Selecciona una hora</option>';
@@ -570,8 +687,9 @@ if (isset($_SESSION['telefono'])) {
                 statusDiv.innerHTML = `
                     <div class="flex items-center">
                         <ion-icon name="warning" class="mr-2"></ion-icon>
-                        <span>No se pudo verificar disponibilidad para ${selectedService}. Mostrando todos los horarios.</span>
+                        <span>No se pudieron cargar horarios configurados. Mostrando horarios estándar.</span>
                     </div>
+                    <p class="text-xs mt-1">Nota: Los horarios mostrados pueden no reflejar la disponibilidad real.</p>
                 `;
             }
         }
@@ -689,18 +807,11 @@ if (isset($_SESSION['telefono'])) {
             // Limpiar opciones existentes
             doctorSelect.innerHTML = '';
             
-            // Agregar opción "Cualquiera" (recomendada)
-            const anyOption = document.createElement('option');
-            anyOption.value = 'cualquiera';
-            anyOption.textContent = '✨ Cualquier médico disponible (Recomendado)';
-            anyOption.selected = true;
-            doctorSelect.appendChild(anyOption);
-            
-            // Agregar separador visual
-            const separator = document.createElement('option');
-            separator.disabled = true;
-            separator.textContent = '────────────────────────';
-            doctorSelect.appendChild(separator);
+            // Agregar opción por defecto
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Selecciona un médico';
+            doctorSelect.appendChild(defaultOption);
             
             // Agregar médicos específicos
             doctors.forEach(doctor => {
@@ -750,7 +861,7 @@ if (isset($_SESSION['telefono'])) {
             return defaults[service] || [];
         }
 
-        // Función para mostrar el modal de consentimiento con validación adicional
+        // Función para mostrar el modal de pago con validación adicional
         function showConsentModal() {
             const service = document.getElementById('service').value;
             const doctor = document.getElementById('doctor').value;
@@ -793,14 +904,16 @@ if (isset($_SESSION['telefono'])) {
         // Función para verificar disponibilidad final antes de confirmar
         async function verifyFinalAvailability(fecha, horario) {
             const serviceSelect = document.getElementById('service');
+            const doctorSelect = document.getElementById('doctor');
             const selectedService = serviceSelect.value;
+            const selectedDoctor = doctorSelect.value;
             
-            if (!selectedService) {
+            if (!selectedService || !selectedDoctor) {
                 return false;
             }
             
             try {
-                const response = await fetch(`php_action/check_availability.php?fecha=${encodeURIComponent(fecha)}&horario=${encodeURIComponent(horario)}&servicio=${encodeURIComponent(selectedService)}`);
+                const response = await fetch(`php_action/check_availability.php?fecha=${encodeURIComponent(fecha)}&horario=${encodeURIComponent(horario)}&servicio=${encodeURIComponent(selectedService)}&id_doctor=${encodeURIComponent(selectedDoctor)}`);
                 const data = await response.json();
                 return data.success && data.available;
             } catch (error) {
@@ -811,105 +924,9 @@ if (isset($_SESSION['telefono'])) {
 
         // Función para actualizar el contenido del modal según la especialidad y médico seleccionado
         async function updateModalContent(service, selectedDoctorId) {
-            const consentTitle = document.getElementById('consent-title');
-            const doctorName = document.getElementById('doctor-name');
-            const specialtyName = document.getElementById('specialty-name');
-            const doctorLicense = document.getElementById('doctor-license');
-            
-            // Títulos según especialidad
-            const titles = {
-                'dermatología': 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DERMATOLÓGICA',
-                'podología': 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA PODOLÓGICA',
-                'tamiz': 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DE TAMIZAJE'
-            };
-            
-            consentTitle.textContent = titles[service] || 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA';
-            
-            // Si seleccionó "cualquiera", usar el primer médico disponible o datos por defecto
-            if (selectedDoctorId === 'cualquiera') {
-                try {
-                    // Obtener médicos de la especialidad
-                    let doctors = doctorsData[service];
-                    
-                    if (!doctors) {
-                        const response = await fetch(`php_action/get_doctors.php?specialty=${encodeURIComponent(service)}`);
-                        const data = await response.json();
-                        doctors = data.success ? data.doctors : [];
-                    }
-                    
-                    if (doctors && doctors.length > 0) {
-                        const doctor = doctors[0];
-                        doctorName.textContent = doctor.nombre_completo;
-                        specialtyName.textContent = doctor.especialidad;
-                        doctorLicense.textContent = doctor.cedula;
-                        
-                        const cedulaType = doctor.cedula_real ? 'real' : 'generada automáticamente';
-                        console.log('Médico asignado automáticamente:', doctor, `(Cédula ${cedulaType})`);
-                    } else {
-                        updateModalContentFallback(service);
-                    }
-                } catch (error) {
-                    console.error('Error al obtener médico automático:', error);
-                    updateModalContentFallback(service);
-                }
-            } else {
-                // Usar el médico específico seleccionado
-                const doctorSelect = document.getElementById('doctor');
-                const selectedOption = doctorSelect.querySelector(`option[value="${selectedDoctorId}"]`);
-                
-                if (selectedOption && selectedOption.dataset.doctorData) {
-                    const doctor = JSON.parse(selectedOption.dataset.doctorData);
-                    doctorName.textContent = doctor.nombre_completo;
-                    specialtyName.textContent = doctor.especialidad;
-                    doctorLicense.textContent = doctor.cedula;
-                    
-                    const cedulaType = doctor.cedula_real ? 'real' : 'generada automáticamente';
-                    console.log('Médico seleccionado específicamente:', doctor, `(Cédula ${cedulaType})`);
-                } else {
-                    updateModalContentFallback(service);
-                }
-            }
-        }
-        
-        // Función de fallback con datos estáticos
-        function updateModalContentFallback(service) {
-            const consentTitle = document.getElementById('consent-title');
-            const doctorName = document.getElementById('doctor-name');
-            const specialtyName = document.getElementById('specialty-name');
-            const doctorLicense = document.getElementById('doctor-license');
-            
-            // Configurar información según el servicio seleccionado (datos por defecto)
-            switch(service) {
-                case 'dermatología':
-                    consentTitle.textContent = 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DERMATOLÓGICA';
-                    doctorName.textContent = 'Dra. María García';
-                    specialtyName.textContent = 'Dermatología';
-                    doctorLicense.textContent = 'DER12345678';
-                    break;
-                    
-                case 'podología':
-                    consentTitle.textContent = 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA PODOLÓGICA';
-                    doctorName.textContent = 'Dr. Juan López';
-                    specialtyName.textContent = 'Podología';
-                    doctorLicense.textContent = 'POD12345678';
-                    break;
-                    
-                case 'tamiz':
-                    consentTitle.textContent = 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA DE TAMIZAJE';
-                    doctorName.textContent = 'Dr. Carlos Mendoza';
-                    specialtyName.textContent = 'Medicina General';
-                    doctorLicense.textContent = 'TAM12345678';
-                    break;
-                    
-                default:
-                    consentTitle.textContent = 'DE ATENCIÓN Y PRESCRIPCIÓN MÉDICA';
-                    doctorName.textContent = 'Dr. Juan López';
-                    specialtyName.textContent = 'Medicina General';
-                    doctorLicense.textContent = 'MED12345678';
-                    break;
-            }
-            
-            console.log('Usando datos por defecto para:', service, '(Cédula generada automáticamente)');
+            // El modal ahora muestra información de pago en lugar de consentimiento
+            // Los datos bancarios se cargan directamente desde PHP
+            console.log('Modal de pago mostrado para:', service, 'con médico ID:', selectedDoctorId);
         }
 
         // Función para cerrar el modal
@@ -975,15 +992,24 @@ if (isset($_SESSION['telefono'])) {
                 
                 loadDoctors(service);
                 
-                // Si ya hay una fecha seleccionada, recargar horarios para el nuevo servicio
-                if (dayInput.value && service) {
+                // Limpiar horarios cuando cambia el servicio (deben seleccionar doctor primero)
+                timeSelect.innerHTML = '<option value="">Primero selecciona un médico</option>';
+                timeSelect.disabled = true;
+                const statusDiv = document.getElementById('availability-status');
+                statusDiv.classList.add('hidden');
+                
+                validateForm();
+            });
+            
+            // Event listener para recargar horarios cuando cambia el médico
+            const doctorSelect = document.getElementById('doctor');
+            doctorSelect.addEventListener('change', function() {
+                const dayInput = document.getElementById('day');
+                const doctorId = this.value;
+                
+                // Si ya hay una fecha y médico seleccionados, recargar horarios
+                if (dayInput.value && doctorId) {
                     loadAvailableTimeSlots(dayInput.value);
-                } else if (!service) {
-                    // Si no hay servicio seleccionado, limpiar horarios
-                    timeSelect.innerHTML = '<option value="">Primero selecciona un servicio</option>';
-                    timeSelect.disabled = true;
-                    const statusDiv = document.getElementById('availability-status');
-                    statusDiv.classList.add('hidden');
                 }
                 
                 validateForm();

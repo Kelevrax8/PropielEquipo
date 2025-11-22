@@ -232,7 +232,7 @@ try {
         <!-- Acciones Rápidas -->
         <div class="bg-white rounded-xl shadow-lg p-6">
             <h3 class="text-xl font-bold mb-6 text-gray-800">Acciones Rápidas</h3>
-            <div class="grid md:grid-cols-4 gap-4">
+            <div class="grid md:grid-cols-3 gap-4">
                 <a href="citas_dermatologia.php" class="flex flex-col items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition duration-200">
                     <ion-icon name="calendar" class="text-3xl text-blue-600 mb-2"></ion-icon>
                     <span class="text-sm font-medium text-gray-700">Gestionar Citas</span>
@@ -246,11 +246,6 @@ try {
                 <a href="imagenes_dermatologia.php" class="flex flex-col items-center p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition duration-200">
                     <ion-icon name="images" class="text-3xl text-purple-600 mb-2"></ion-icon>
                     <span class="text-sm font-medium text-gray-700">Imágenes Médicas</span>
-                </a>
-                
-                <a href="../../dashboarddoc.php" class="flex flex-col items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition duration-200">
-                    <ion-icon name="home" class="text-3xl text-gray-600 mb-2"></ion-icon>
-                    <span class="text-sm font-medium text-gray-700">Dashboard General</span>
                 </a>
             </div>
         </div>

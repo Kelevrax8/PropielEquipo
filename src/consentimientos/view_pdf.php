@@ -8,13 +8,16 @@ session_start();
 // Verificar autenticación
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['rol'])) {
     http_response_code(403);
-    die('Acceso denegado - Debe iniciar sesión como doctor');
+    die('Acceso denegado - Debe iniciar sesión');
 }
 
-// Verificar que el usuario es un doctor (rol = 1)
-if ($_SESSION['rol'] != 1) {
+// Permitir acceso a doctores (rol = 1) o pacientes (rol = 3)
+$is_doctor = ($_SESSION['rol'] == 1);
+$is_patient = ($_SESSION['rol'] == 3);
+
+if (!$is_doctor && !$is_patient) {
     http_response_code(403);
-    die('Acceso denegado - Solo personal médico autorizado');
+    die('Acceso denegado - Solo personal médico o pacientes autorizados');
 }
 
 // Obtener el nombre del archivo solicitado
@@ -49,9 +52,26 @@ if (!is_file($filepath)) {
     die('Error - Ruta inválida');
 }
 
+// Si es un paciente, verificar que el archivo le pertenece
+if ($is_patient) {
+    $user_id = $_SESSION['user_id'];
+    // Verificar que el nombre del archivo contenga el ID del usuario
+    if (strpos($filename, '_usuario_' . $user_id . '_') === false) {
+        http_response_code(403);
+        error_log(sprintf(
+            "Unauthorized PDF Access Attempt: Patient ID %d tried to access file: %s",
+            $user_id,
+            $filename
+        ));
+        die('Error - No tiene permiso para ver este documento');
+    }
+}
+
 // Log de acceso (opcional, para auditoría)
+$user_type = $is_doctor ? 'Doctor' : 'Patient';
 error_log(sprintf(
-    "PDF Access: Doctor ID %d (%s %s) accessed file: %s",
+    "PDF Access: %s ID %d (%s %s) accessed file: %s",
+    $user_type,
     $_SESSION['user_id'],
     $_SESSION['nombre'] ?? 'Unknown',
     $_SESSION['apellido'] ?? '',

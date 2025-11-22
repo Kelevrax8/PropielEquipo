@@ -70,7 +70,8 @@ try {
                 'paciente_nombre' => 'Desconocido',
                 'paciente_apellido' => '',
                 'nombre_completo' => 'Desconocido',
-                'user_id' => null
+                'user_id' => null,
+                'telefono' => null
             ];
             
             // Intentar extraer el user_id primero
@@ -84,6 +85,7 @@ try {
                         $info['paciente_nombre'] = $paciente['nombre'];
                         $info['paciente_apellido'] = $paciente['apellido'];
                         $info['nombre_completo'] = $paciente['nombre'] . ' ' . $paciente['apellido'];
+                        $info['telefono'] = $paciente['telefono'];
                     }
                 } catch (Exception $e) {
                     error_log("Error obteniendo datos del paciente: " . $e->getMessage());
@@ -158,18 +160,18 @@ function formatBytes($bytes, $precision = 2) {
     <link href="../../../output.css?v=<?php echo time(); ?>" rel="stylesheet">
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 </head>
-<body class="bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col min-h-screen">
+<body class="bg-gradient-to-r from-purple-50 to-purple-100 flex flex-col min-h-screen">
     
     <?php include '../../shared/navbar_doctor.php'; ?>
 
     <!-- Header -->
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 text-white mb-8">
+        <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl p-6 text-white mb-8">
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold mb-2">Consentimientos Informados</h1>
-                    <p class="text-blue-100">Dr. <?php echo htmlspecialchars($nombre . " " . $apellido); ?></p>
-                    <p class="text-blue-200 text-sm">Documentos legales firmados por los pacientes</p>
+                    <p class="text-purple-100">Dr. <?php echo htmlspecialchars($nombre . " " . $apellido); ?></p>
+                    <p class="text-purple-200 text-sm">Documentos legales firmados por los pacientes</p>
                 </div>
                 <div class="hidden md:block">
                     <ion-icon name="document-text" class="text-6xl opacity-30"></ion-icon>
@@ -188,16 +190,16 @@ function formatBytes($bytes, $precision = 2) {
                                name="search" 
                                value="<?php echo htmlspecialchars($search_term); ?>"
                                placeholder="Buscar por nombre del paciente, ID o nombre de archivo..."
-                               class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                autocomplete="off">
                         <ion-icon name="search" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></ion-icon>
                         <div id="search-loading" class="absolute right-4 top-1/2 transform -translate-y-1/2 hidden">
-                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
                         </div>
                     </div>
                 </div>
                 <button type="submit" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center">
+                        class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition duration-200 flex items-center">
                     <ion-icon name="search" class="mr-2"></ion-icon>
                     Buscar
                 </button>
@@ -225,12 +227,12 @@ function formatBytes($bytes, $precision = 2) {
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm">Total Consentimientos</p>
-                        <p class="text-2xl font-bold text-blue-600"><?php echo count($consentimientos_all); ?></p>
+                        <p class="text-2xl font-bold text-purple-600"><?php echo count($consentimientos_all); ?></p>
                         <?php if (!empty($search_term)): ?>
                         <p class="text-xs text-gray-500 mt-1">Mostrando: <?php echo $total_records; ?></p>
                         <?php endif; ?>
                     </div>
-                    <ion-icon name="documents" class="text-3xl text-blue-500"></ion-icon>
+                    <ion-icon name="documents" class="text-3xl text-purple-500"></ion-icon>
                 </div>
             </div>
             
@@ -238,14 +240,14 @@ function formatBytes($bytes, $precision = 2) {
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm">Espacio Utilizado</p>
-                        <p class="text-2xl font-bold text-blue-600">
+                        <p class="text-2xl font-bold text-purple-600">
                             <?php 
                             $total_size = array_sum(array_column($consentimientos_all, 'filesize'));
                             echo formatBytes($total_size);
                             ?>
                         </p>
                     </div>
-                    <ion-icon name="folder" class="text-3xl text-blue-500"></ion-icon>
+                    <ion-icon name="folder" class="text-3xl text-purple-500"></ion-icon>
                 </div>
             </div>
             
@@ -253,7 +255,7 @@ function formatBytes($bytes, $precision = 2) {
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm">Último Firmado</p>
-                        <p class="text-lg font-bold text-blue-600">
+                        <p class="text-lg font-bold text-purple-600">
                             <?php 
                             if (!empty($consentimientos_all)) {
                                 echo date('d/m/Y', $consentimientos_all[0]['filedate']);
@@ -263,7 +265,7 @@ function formatBytes($bytes, $precision = 2) {
                             ?>
                         </p>
                     </div>
-                    <ion-icon name="time" class="text-3xl text-blue-500"></ion-icon>
+                    <ion-icon name="time" class="text-3xl text-purple-500"></ion-icon>
                 </div>
             </div>
         </div>
@@ -318,16 +320,16 @@ function formatBytes($bytes, $precision = 2) {
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <ion-icon name="person" class="text-blue-600 text-xl"></ion-icon>
+                                        <div class="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <ion-icon name="person" class="text-purple-600 text-xl"></ion-icon>
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">
                                                 <?php echo htmlspecialchars($consent['nombre_completo']); ?>
                                             </div>
-                                            <?php if ($consent['user_id']): ?>
+                                            <?php if ($consent['telefono']): ?>
                                             <div class="text-sm text-gray-500">
-                                                ID: <?php echo htmlspecialchars($consent['user_id']); ?>
+                                                Tel: <?php echo htmlspecialchars($consent['telefono']); ?>
                                             </div>
                                             <?php endif; ?>
                                         </div>
@@ -345,8 +347,8 @@ function formatBytes($bytes, $precision = 2) {
                                     <?php echo formatBytes($consent['filesize']); ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button onclick="viewPDF('<?php echo htmlspecialchars($consent['filename']); ?>')"
-                                            class="text-blue-600 hover:text-blue-900 mr-3 inline-flex items-center">
+                                    <button onclick="viewPDF('<?php echo htmlspecialchars($consent['filename']); ?>')" 
+                                            class="text-purple-600 hover:text-purple-900 mr-3 inline-flex items-center">
                                         <ion-icon name="eye" class="mr-1"></ion-icon>
                                         Ver
                                     </button>
@@ -404,7 +406,7 @@ function formatBytes($bytes, $precision = 2) {
                         for ($i = $start_page; $i <= $end_page; $i++): 
                         ?>
                             <a href="?page=<?php echo $i; ?><?php echo !empty($search_term) ? '&search=' . urlencode($search_term) : ''; ?>" 
-                               class="px-4 py-2 rounded-lg transition duration-200 <?php echo $i === $page ? 'bg-blue-600 text-white font-bold' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'; ?>">
+                               class="px-4 py-2 rounded-lg transition duration-200 <?php echo $i === $page ? 'bg-purple-600 text-white font-bold' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'; ?>">
                                 <?php echo $i; ?>
                             </a>
                         <?php endfor; ?>
@@ -439,7 +441,7 @@ function formatBytes($bytes, $precision = 2) {
     <div id="pdf-modal" class="fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50 hidden p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] overflow-hidden flex flex-col">
             <!-- Header del Modal -->
-            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 flex items-center justify-between">
+            <div class="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4 flex items-center justify-between">
                 <div class="flex items-center">
                     <ion-icon name="document-text" class="text-2xl mr-3"></ion-icon>
                     <h2 class="text-xl font-bold" id="modal-title">Visualizar Consentimiento</h2>
@@ -461,7 +463,7 @@ function formatBytes($bytes, $precision = 2) {
                     Cerrar
                 </button>
                 <button id="download-link" onclick="return false;"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 inline-flex items-center">
+                        class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition duration-200 inline-flex items-center">
                     <ion-icon name="download" class="mr-2"></ion-icon>
                     Descargar
                 </button>

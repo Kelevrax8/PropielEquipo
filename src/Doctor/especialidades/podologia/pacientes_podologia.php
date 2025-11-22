@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Pacientes específicos para Podología
 session_start();
 
@@ -113,7 +113,7 @@ try {
                     <p class="text-emerald-200 text-sm">Gestión de pacientes podológicos</p>
                 </div>
                 <div class="hidden md:block">
-                    <ion-icon name="walk" class="text-6xl opacity-30"></ion-icon>
+                    <ion-icon name="people" class="text-6xl opacity-30"></ion-icon>
                 </div>
             </div>
         </div>
@@ -220,7 +220,7 @@ try {
                                         <?php echo htmlspecialchars($paciente['telefono']); ?>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="bg-emerald-100 text-emerald-800 px-2 py-1 text-xs font-semibold rounded-full">
+                                        <span class="bg-emerald-100 text-blue-800 px-2 py-1 text-xs font-semibold rounded-full">
                                             <?php echo $paciente['total_citas']; ?> citas
                                         </span>
                                     </td>
@@ -237,7 +237,7 @@ try {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <button onclick="generarHistorialPDF(<?php echo $paciente['user_id']; ?>, '<?php echo htmlspecialchars($paciente['nombre'] . ' ' . $paciente['apellido'], ENT_QUOTES); ?>')" 
-                                                class="text-emerald-600 hover:text-emerald-900 mr-3 cursor-pointer">
+                                                class="text-emerald-600 hover:text-blue-900 mr-3 cursor-pointer">
                                             Ver historial
                                         </button>
                                         <a href="#" class="text-green-600 hover:text-green-900">Nueva cita</a>
@@ -248,7 +248,7 @@ try {
                             <tr>
                                 <td colspan="7" class="px-6 py-12 text-center">
                                     <div class="text-gray-500">
-                                        <ion-icon name="walk" class="text-6xl text-gray-300 mb-4"></ion-icon>
+                                        <ion-icon name="people-outline" class="text-6xl text-gray-300 mb-4"></ion-icon>
                                         <p class="text-lg">No hay pacientes de podología registrados</p>
                                         <p class="text-sm">Los pacientes aparecerán aquí cuando reserven citas de podología</p>
                                     </div>
@@ -300,7 +300,7 @@ try {
 
             console.log('Obteniendo datos del paciente:', userId);
 
-            // Usar el endpoint específico para podología
+            // Usar el endpoint correcto para obtener datos reales
             const response = await fetch(`../../../php_action/get_patient_history_podologia.php?patient_id=${userId}`);
             
             if (!response.ok) {
@@ -324,7 +324,7 @@ try {
             }
 
             // Generar PDF con los datos reales de la base de datos
-            await generatePatientHistoryPDF(data.patient, data.appointments, 'Podología');
+            await generatePatientHistoryPDF(data.patient, data.appointments);
 
         } catch (error) {
             console.error('Error completo:', error);
@@ -338,7 +338,7 @@ try {
         }
     }
 
-    async function generatePatientHistoryPDF(patient, appointments, specialty = 'Podología') {
+    async function generatePatientHistoryPDF(patient, appointments) {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         
@@ -384,14 +384,14 @@ try {
 
         pdf.setFontSize(16);
         pdf.setFont('helvetica', 'normal');
-        pdf.setTextColor(16, 185, 129); // Color emerald
-        pdf.text(`Especialidad: ${specialty}`, pageWidth / 2, yPosition, { align: 'center' });
+        pdf.setTextColor(70, 130, 180);
+        pdf.text('Especialidad: Podología', pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 8;
         
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'italic');
         pdf.setTextColor(100, 100, 100);
-        pdf.text(`Este historial contiene únicamente citas de ${specialty.toLowerCase()}`, pageWidth / 2, yPosition, { align: 'center' });
+        pdf.text('Este historial contiene únicamente citas de podología', pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 20;
 
         // Información del paciente (usando datos reales de la BD)
@@ -402,7 +402,7 @@ try {
         yPosition += 10;
 
         pdf.setLineWidth(0.5);
-        pdf.setDrawColor(16, 185, 129); // Color emerald
+        pdf.setDrawColor(70, 130, 180);
         pdf.line(margin, yPosition, pageWidth - margin, yPosition);
         yPosition += 10;
 
@@ -425,7 +425,7 @@ try {
             yPosition += 8;
         });
 
-        // Fecha de generación
+        // Fecha de generación (más a la derecha para evitar sobrelapamiento)
         yPosition += 5;
         pdf.setFont('helvetica', 'bold');
         pdf.text('Fecha de generación:', margin, yPosition);
@@ -449,9 +449,9 @@ try {
 
         if (totalCitas > 0) {
             // Ordenar citas por fecha para obtener primera y última
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            primeraVisita = new Date(citasOrdenadas[0].fecha).toLocaleDateString('es-ES');
-            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha).toLocaleDateString('es-ES');
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha + 'T00:00:00') - new Date(b.fecha + 'T00:00:00'));
+            primeraVisita = new Date(citasOrdenadas[0].fecha + 'T00:00:00').toLocaleDateString('es-ES');
+            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha + 'T00:00:00').toLocaleDateString('es-ES');
         }
 
         const stats = [
@@ -475,14 +475,14 @@ try {
         if (totalCitas > 0) {
             pdf.setFontSize(16);
             pdf.setFont('helvetica', 'bold');
-            pdf.text(`HISTORIAL DE CITAS DE ${specialty.toUpperCase()}`, margin, yPosition);
+            pdf.text('HISTORIAL DE CITAS PODOLÓGICAS', margin, yPosition);
             yPosition += 10;
 
             pdf.line(margin, yPosition, pageWidth - margin, yPosition);
             yPosition += 15;
 
             // Ordenar citas por fecha descendente (más reciente primero)
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha + 'T00:00:00') - new Date(a.fecha + 'T00:00:00'));
 
             citasOrdenadas.forEach((appointment, index) => {
                 // Verificar espacio para nueva página
@@ -494,8 +494,8 @@ try {
                 // Encabezado de la cita
                 pdf.setFontSize(14);
                 pdf.setFont('helvetica', 'bold');
-                pdf.setTextColor(16, 185, 129); // Color emerald
-                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha).toLocaleDateString('es-ES')}`, margin, yPosition);
+                pdf.setTextColor(70, 130, 180);
+                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')}`, margin, yPosition);
                 yPosition += 8;
 
                 // Detalles de la cita de la base de datos
@@ -503,10 +503,10 @@ try {
                 pdf.setTextColor(51, 51, 51);
 
                 const citaDetails = [
-                    ['Fecha:', new Date(appointment.fecha).toLocaleDateString('es-ES')],
+                    ['Fecha:', new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')],
                     ['Hora:', appointment.horario || 'No especificada'],
-                    ['Servicio:', appointment.servicio || specialty],
-                    ['Especialidad:', appointment.especialidad || specialty],
+                    ['Servicio:', appointment.servicio || 'Podología'],
+                    ['Especialidad:', appointment.especialidad || 'Podología'],
                     ['Doctor:', appointment.doctor_nombre || 'No especificado']
                 ];
 
@@ -551,14 +551,14 @@ try {
             pdf.setFontSize(14);
             pdf.setFont('helvetica', 'italic');
             pdf.setTextColor(128, 128, 128);
-            pdf.text(`Este paciente no tiene citas de ${specialty.toLowerCase()} registradas.`, margin, yPosition);
+            pdf.text('Este paciente no tiene citas de podología registradas.', margin, yPosition);
             yPosition += 10;
             
             pdf.setFontSize(11);
             pdf.setFont('helvetica', 'normal');
             pdf.text('• Puede que tenga citas en otras especialidades', margin, yPosition);
             yPosition += 6;
-            pdf.text(`• Solo se muestran citas específicas de ${specialty.toLowerCase()} en este historial`, margin, yPosition);
+            pdf.text('• Solo se muestran citas específicas de podología en este historial', margin, yPosition);
         }
 
         // Pie de página en todas las páginas
@@ -589,7 +589,7 @@ try {
         if (!newWindow) {
             alert('Por favor, permita las ventanas emergentes para ver el PDF');
             // Ofrecer descarga como alternativa
-            const nombreArchivo = `historial_${specialty.toLowerCase()}_${patient.nombre}_${patient.apellido}_${new Date().toISOString().slice(0, 10)}.pdf`;
+            const nombreArchivo = `historial_${patient.nombre}_${patient.apellido}_${new Date().toISOString().slice(0, 10)}.pdf`;
             pdf.save(nombreArchivo);
         }
 
@@ -598,7 +598,7 @@ try {
             URL.revokeObjectURL(pdfUrl);
         }, 30000);
 
-        console.log(`Historial PDF de ${specialty} generado exitosamente para:`, patient.nombre, patient.apellido);
+        console.log('Historial PDF generado exitosamente para:', patient.nombre, patient.apellido);
     }
 </script>
 

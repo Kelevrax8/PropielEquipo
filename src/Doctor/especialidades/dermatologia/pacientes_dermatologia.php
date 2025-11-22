@@ -449,9 +449,9 @@ try {
 
         if (totalCitas > 0) {
             // Ordenar citas por fecha para obtener primera y última
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            primeraVisita = new Date(citasOrdenadas[0].fecha).toLocaleDateString('es-ES');
-            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha).toLocaleDateString('es-ES');
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(a.fecha + 'T00:00:00') - new Date(b.fecha + 'T00:00:00'));
+            primeraVisita = new Date(citasOrdenadas[0].fecha + 'T00:00:00').toLocaleDateString('es-ES');
+            ultimaVisita = new Date(citasOrdenadas[citasOrdenadas.length - 1].fecha + 'T00:00:00').toLocaleDateString('es-ES');
         }
 
         const stats = [
@@ -482,7 +482,7 @@ try {
             yPosition += 15;
 
             // Ordenar citas por fecha descendente (más reciente primero)
-            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            const citasOrdenadas = [...appointments].sort((a, b) => new Date(b.fecha + 'T00:00:00') - new Date(a.fecha + 'T00:00:00'));
 
             citasOrdenadas.forEach((appointment, index) => {
                 // Verificar espacio para nueva página
@@ -495,7 +495,7 @@ try {
                 pdf.setFontSize(14);
                 pdf.setFont('helvetica', 'bold');
                 pdf.setTextColor(70, 130, 180);
-                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha).toLocaleDateString('es-ES')}`, margin, yPosition);
+                pdf.text(`CITA #${appointment.id_cita || (index + 1)} - ${new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')}`, margin, yPosition);
                 yPosition += 8;
 
                 // Detalles de la cita de la base de datos
@@ -503,7 +503,7 @@ try {
                 pdf.setTextColor(51, 51, 51);
 
                 const citaDetails = [
-                    ['Fecha:', new Date(appointment.fecha).toLocaleDateString('es-ES')],
+                    ['Fecha:', new Date(appointment.fecha + 'T00:00:00').toLocaleDateString('es-ES')],
                     ['Hora:', appointment.horario || 'No especificada'],
                     ['Servicio:', appointment.servicio || 'Dermatología'],
                     ['Especialidad:', appointment.especialidad || 'Dermatología'],
