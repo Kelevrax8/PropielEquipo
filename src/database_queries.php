@@ -110,14 +110,14 @@ class PropielEquipoQueries {
     // Create new appointment
     public function createAppointment($id_usuario, $fecha, $horario, $servicio, $id_doctor = null) {
         try {
-            // Verificar disponibilidad una vez más antes de crear la cita (con especialidad específica)
-            if (!$this->isTimeSlotAvailable($fecha, $horario, $servicio)) {
-                throw new Exception("El horario seleccionado ya no está disponible para la especialidad " . $servicio);
-            }
-            
             // Si no se especifica un doctor, intentar asignar uno automáticamente según la especialidad
             if ($id_doctor === null || $id_doctor === 'cualquiera' || $id_doctor === '' || $id_doctor === 0) {
                 $id_doctor = $this->getAvailableDoctorForSpecialty($servicio);
+            }
+            
+            // Verificar disponibilidad una vez más antes de crear la cita (para el doctor específico)
+            if (!$this->isTimeSlotAvailable($fecha, $horario, $servicio, $id_doctor)) {
+                throw new Exception("El horario seleccionado ya no está disponible para este doctor");
             }
             
             $query = "INSERT INTO citas (id_usuario, id_doctor, fecha, horario, servicio) 
