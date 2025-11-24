@@ -240,7 +240,6 @@ try {
                                                 class="text-emerald-600 hover:text-blue-900 mr-3 cursor-pointer">
                                             Ver historial
                                         </button>
-                                        <a href="#" class="text-green-600 hover:text-green-900">Nueva cita</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
